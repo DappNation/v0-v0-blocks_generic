@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --font-geist: var(--font-geist-mono);
+  --font-geist: var(--font-jetbrains-mono);
   --font-heading: var(--font-space-grotesk);
 }
 

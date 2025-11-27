@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { geistMono, spaceGrotesk } from "./fonts"
+import { jetbrainsMono, spaceGrotesk } from "./fonts"
 import { Providers } from "./providers"
 import "./globals.css"
 
@@ -32,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${geistMono.variable} ${spaceGrotesk.variable}`}>
-      <body className={`${geistMono.className} antialiased`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
+      <body className={`${jetbrainsMono.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

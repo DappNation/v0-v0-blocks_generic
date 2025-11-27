@@ -1,9 +1,9 @@
-import { Geist_Mono, Space_Grotesk } from "next/font/google"
+import { JetBrains_Mono, Space_Grotesk } from "next/font/google"
 
-export const geistMono = Geist_Mono({
+export const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains-mono",
 })
 
 export const spaceGrotesk = Space_Grotesk({
