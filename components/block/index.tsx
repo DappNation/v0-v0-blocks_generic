@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useState, useEffect } from "react"
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
 import { Instances, Instance, useTexture } from "@react-three/drei"
@@ -39,6 +39,19 @@ export const Block: React.FC<BlockProps> = ({
   const brickRef = useRef<THREE.Mesh>(null)
   const studRef = useRef<THREE.InstancedMesh>(null)
   const groupRef = useRef<THREE.Group>(null)
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   // Determine if this is an erase highlight
   const isEraseHighlight = isPlacing && onClick !== undefined
@@ -83,14 +96,6 @@ export const Block: React.FC<BlockProps> = ({
     e.stopPropagation()
     if (onClick) onClick()
   }
-
-  // Check if we're on mobile
-  const isMobile = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < 768
-    }
-    return false
-  }, [])
 
   // Only use onPointerDown for erase mode on mobile
   // For build mode, we need to use the regular click handler
