@@ -6,7 +6,6 @@ import { Cable as Cube, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { WalletConnect } from "@/components/wallet-connect"
-import { WalletDrawer } from "@/components/wallet-drawer"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -103,9 +102,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:block">
-            <WalletDrawer />
-          </div>
           <div className="hidden md:block">
             <WalletConnect variant="compact" />
           </div>

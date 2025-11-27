@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useAccount } from "wagmi"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SiteHeader } from "@/components/site-header"
@@ -13,7 +12,7 @@ import type { SavedCreation } from "@/lib/types"
 export default function MyBuildsPage() {
   const [builds, setBuilds] = useState<SavedCreation[]>([])
   const [loading, setLoading] = useState(true)
-  const { address, isConnected } = useAccount()
+  const isConnected = false
 
   useEffect(() => {
     if (!isConnected) {
@@ -38,7 +37,6 @@ export default function MyBuildsPage() {
   }, [isConnected])
 
   const handleLoadBuild = (creation: SavedCreation) => {
-    // Store in localStorage to be loaded by builder
     if (typeof window !== "undefined") {
       localStorage.setItem("ethblox-load-creation", JSON.stringify(creation))
       window.location.href = "/build"
@@ -81,17 +79,22 @@ export default function MyBuildsPage() {
                   </div>
                 </div>
                 <CardTitle className="text-[hsl(var(--ethblox-text-primary))] font-heading text-2xl">
-                  Connect Your Wallet
+                  Wallet Connection Coming Soon
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center space-y-6">
                 <p className="text-[hsl(var(--ethblox-text-secondary))]">
-                  Connect your wallet to view and manage your saved BUILDS. Your creations are tied to your wallet
-                  address for on-chain provenance.
+                  Wallet connectivity is being added. Soon you'll be able to connect your wallet to view and manage your
+                  saved BUILDS with on-chain provenance.
                 </p>
                 <p className="text-sm text-[hsl(var(--ethblox-text-tertiary))]">
-                  Click the wallet icon in the top right to connect via MetaMask or WalletConnect.
+                  In the meantime, you can still build and save creations locally in the Builder.
                 </p>
+                <Link href="/build">
+                  <Button className="bg-[hsl(var(--ethblox-accent-cyan))] hover:bg-[hsl(var(--ethblox-accent-cyan))]/90 text-[hsl(var(--ethblox-bg))] font-medium">
+                    Enter Builder
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
