@@ -11,6 +11,7 @@ import { ActionToolbar } from "../action-toolbar"
 import { SaveModal } from "../save-modal"
 import { LoadModal } from "../load-modal"
 import { ClearConfirmationModal } from "./clear-confirmation-modal"
+import { SiteHeader } from "../site-header"
 import { useKeyboardShortcuts } from "./use-keyboard-shortcuts"
 import { useColorTheme } from "./use-color-theme"
 import { useTouchHandling } from "./use-touch-handling"
@@ -213,9 +214,10 @@ export default function V0Blocks() {
 
   return (
     <div
-      className="fixed inset-0 w-full h-full bg-purple-950 font-sans overflow-hidden"
+      className="fixed inset-0 w-full h-full bg-[hsl(var(--ethblox-warehouse))] font-sans overflow-hidden"
       onContextMenu={(e) => e.preventDefault()} // Prevent context menu on right-click
     >
+      <SiteHeader />
       <Canvas shadows camera={{ position: [0, 15, 15], fov: 50 }}>
         <Scene
           bricks={bricks}

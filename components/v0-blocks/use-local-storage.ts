@@ -56,6 +56,30 @@ export function useLocalStorage({
     if (!hasLocalStorage.current) return
 
     if (isInitialLoad.current) {
+      const loadCreationData = typeof window !== "undefined" ? localStorage.getItem("ethblox-load-creation") : null
+
+      if (loadCreationData) {
+        try {
+          const creation = JSON.parse(loadCreationData) as any
+          if (creation.bricks && creation.bricks.length > 0) {
+            setBricks(creation.bricks)
+            setHistory([[...creation.bricks]])
+            setHistoryIndex(0)
+            setCurrentCreationId(creation.id)
+            setCurrentCreationName(creation.name)
+
+            // Clear the load flag
+            localStorage.removeItem("ethblox-load-creation")
+            isInitialLoad.current = false
+            return
+          }
+        } catch (error) {
+          console.error("[v0] Failed to load creation from My Builds:", error)
+          localStorage.removeItem("ethblox-load-creation")
+        }
+      }
+
+      // Otherwise, load the normal saved state
       const savedState = loadFromLocalStorage()
 
       if (savedState) {

@@ -49,7 +49,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   return (
     <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-4 z-10">
       {/* Main Controls Panel - Very rounded with smaller padding */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 backdrop-blur-md px-6 py-3 rounded-[28px] shadow-lg border border-gray-700 text-white">
+      <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-6 py-3 rounded-[28px] shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))]">
         <div className="flex items-center gap-3">
           {/* History Controls */}
           <HistoryControls onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} isMobile={isMobile} />

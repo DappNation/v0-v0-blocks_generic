@@ -15,7 +15,7 @@ export const LargePlane: React.FC = () => {
     <mesh position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry args={[10000, 10000]} />
       <meshStandardMaterial
-        color="#ffffff"
+        color="#2a2a2a"
         roughnessMap={marbleTextures.roughness}
         normalMap={marbleTextures.normal}
         map={marbleTextures.color}

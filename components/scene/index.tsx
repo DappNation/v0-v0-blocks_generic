@@ -10,7 +10,7 @@ import { EraseMode } from "./erase-mode"
 import { LightingSetup } from "./lighting-setup"
 import { useSceneInteraction } from "./use-scene-interaction"
 import { Block } from "../block"
-import { GRID_SIZE } from "@/constants"
+import { GRID_SIZE } from "@/lib/constants"
 
 export const Scene: React.FC<SceneProps> = ({
   bricks,
@@ -95,10 +95,7 @@ export const Scene: React.FC<SceneProps> = ({
       </mesh>
 
       <LightingSetup />
-      <Environment
-        files="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bg-image-gradient-2.jpg-iFrfRqWi6BT95fkorMRZnQMfIdMrlT.jpeg"
-        background
-      />
+      <Environment preset="warehouse" background />
     </>
   )
 }

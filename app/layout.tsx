@@ -1,17 +1,19 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { geistSans } from "./fonts"
+import { geistMono, spaceGrotesk } from "./fonts"
+import { Providers } from "./providers"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "V0 Blocks - 3D Block Builder",
-  description: "A 3D block building application powered by Three.js and React",
+  title: "ETHBLOX - On-Chain Creative Protocol",
+  description:
+    "A crypto-native 3D art experiment where BLOX (matter), BRICKS (moulds), and BUILDS (creations) turn on-chain culture into a game of geometry.",
   generator: "v0.app",
-  keywords: ["3D builder", "block builder", "Three.js", "React", "web3"],
-  authors: [{ name: "v0" }],
+  keywords: ["ETHBLOX", "web3", "ethereum", "3D builder", "NFT", "on-chain art", "crypto art"],
+  authors: [{ name: "ETHBLOX" }],
   openGraph: {
-    title: "V0 Blocks - 3D Block Builder",
-    description: "Build amazing 3D structures with blocks",
+    title: "ETHBLOX - On-Chain Creative Protocol",
+    description: "Digital matter meets Ethereum. Build, create, mint.",
     type: "website",
   },
 }
@@ -21,7 +23,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#1e1b4b",
+  themeColor: "#1e2228",
 }
 
 export default function RootLayout({
@@ -30,8 +32,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${geistSans.variable} overflow-hidden`}>
-      <body className={`${geistSans.className} antialiased overflow-hidden`}>{children}</body>
+    <html lang="en" className={`${geistMono.variable} ${spaceGrotesk.variable}`}>
+      <body className={`${geistMono.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

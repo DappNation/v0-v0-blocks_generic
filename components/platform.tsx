@@ -22,10 +22,27 @@ export const Platform: React.FC = () => {
     <group>
       <mesh position={[0, 0, 0]} receiveShadow>
         <boxGeometry args={[GRID_SIZE, GROUND_HEIGHT, GRID_SIZE]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.8} metalness={0.1} />
+        <meshPhysicalMaterial
+          color="#ffffff"
+          roughness={0.1}
+          metalness={0}
+          transmission={0.9}
+          transparent={true}
+          opacity={0.3}
+          thickness={0.5}
+          ior={1.5}
+        />
       </mesh>
       <Instances geometry={studGeometry} limit={GRID_SIZE * GRID_SIZE}>
-        <meshStandardMaterial color="#ffffff" roughness={0.8} metalness={0.1} />
+        <meshPhysicalMaterial
+          color="#ffffff"
+          roughness={0.2}
+          metalness={0}
+          transmission={0.7}
+          transparent={true}
+          opacity={0.4}
+          ior={1.5}
+        />
         {studPositions.map((pos, index) => (
           <Instance key={index} position={pos} castShadow receiveShadow />
         ))}

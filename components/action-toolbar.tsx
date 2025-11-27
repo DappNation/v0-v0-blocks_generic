@@ -37,7 +37,7 @@ export const ActionToolbar: React.FC<ActionToolbarProps> = ({ onModeChange, curr
   }
 
   return (
-    <div className="fixed top-4 left-4 flex flex-col gap-3 z-20">
+    <div className="fixed top-1/2 -translate-y-1/2 left-4 flex flex-col gap-3 z-20">
       <MaybeTooltip text="Build (b)">
         <button
           onClick={() => onModeChange("build")}
