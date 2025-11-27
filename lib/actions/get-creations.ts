@@ -4,10 +4,12 @@ import { kv } from "@vercel/kv"
 import type { SavedCreation } from "../types"
 
 // Get all creations (with pagination)
-export async function getCreations(limit = 10, offset = 0) {
+export async function getCreations(limit = 10, offset = 0, walletAddress?: string) {
   try {
+    const key = walletAddress ? `user:${walletAddress}:creations` : "creations"
+
     // Get IDs from sorted set (newest first)
-    const ids = await kv.zrange("creations", offset, offset + limit - 1, { rev: true })
+    const ids = await kv.zrange(key, offset, offset + limit - 1, { rev: true })
 
     if (!ids || ids.length === 0) {
       return { success: true, creations: [] }

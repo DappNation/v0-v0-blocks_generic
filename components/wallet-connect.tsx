@@ -11,7 +11,7 @@ interface WalletConnectProps {
 }
 
 export function WalletConnect({ variant = "default" }: WalletConnectProps) {
-  const { isConnected, connect, account, disconnect } = useMetaMask()
+  const { isConnected, connect, account, disconnect, switchAccount } = useMetaMask()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   console.log("[v0] WalletConnect state:", { isConnected, account, drawerOpen })
@@ -31,7 +31,13 @@ export function WalletConnect({ variant = "default" }: WalletConnectProps) {
             <div className="w-2 h-2 bg-[hsl(var(--ethblox-accent-green))] rounded-full" />
             {account.slice(0, 6)}...{account.slice(-4)}
           </Button>
-          <WalletDrawer open={drawerOpen} onOpenChange={setDrawerOpen} account={account} onDisconnect={disconnect} />
+          <WalletDrawer
+            open={drawerOpen}
+            onOpenChange={setDrawerOpen}
+            account={account}
+            onDisconnect={disconnect}
+            onSwitchAccount={switchAccount}
+          />
         </>
       )
     }
@@ -48,7 +54,13 @@ export function WalletConnect({ variant = "default" }: WalletConnectProps) {
           <div className="w-2 h-2 bg-white rounded-full" />
           {account.slice(0, 6)}...{account.slice(-4)}
         </Button>
-        <WalletDrawer open={drawerOpen} onOpenChange={setDrawerOpen} account={account} onDisconnect={disconnect} />
+        <WalletDrawer
+          open={drawerOpen}
+          onOpenChange={setDrawerOpen}
+          account={account}
+          onDisconnect={disconnect}
+          onSwitchAccount={switchAccount}
+        />
       </>
     )
   }

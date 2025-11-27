@@ -6,7 +6,7 @@ import type { Brick } from "@/components/v0-blocks/events"
 import type { SavedCreation } from "../types"
 
 // Update an existing creation
-export async function updateCreation(id: string, name: string, bricks: Brick[]) {
+export async function updateCreation(id: string, name: string, bricks: Brick[], walletAddress?: string) {
   try {
     // Get the existing creation
     const existingCreationStr = await kv.get(`creation:${id}`)
@@ -30,7 +30,11 @@ export async function updateCreation(id: string, name: string, bricks: Brick[]) 
     // Update in Redis
     await kv.set(`creation:${id}`, JSON.stringify(updatedCreation))
 
-    // Update score in sorted set
+    if (walletAddress) {
+      await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
+    }
+
+    // Update score in global sorted set
     await kv.zadd("creations", { score: timestamp, member: id })
 
     revalidatePath("/")

@@ -31,6 +31,45 @@ export function useMetaMask() {
     checkMetaMask()
   }, [])
 
+  const switchAccount = async () => {
+    if (typeof window === "undefined") return
+
+    const ethereum = (window as any).ethereum
+
+    if (!ethereum || !ethereum.isMetaMask) {
+      alert("MetaMask is not installed. Please install MetaMask to continue.")
+      window.open("https://metamask.io/download/", "_blank")
+      return
+    }
+
+    try {
+      // Request permission to access accounts, which triggers account selector
+      const accounts = await ethereum.request({
+        method: "wallet_requestPermissions",
+        params: [{ eth_accounts: {} }],
+      })
+
+      // After permission granted, get the selected account
+      const newAccounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      })
+      const chainId = await ethereum.request({ method: "eth_chainId" })
+
+      setState({
+        account: newAccounts[0],
+        chainId,
+        isConnected: true,
+        isInstalled: true,
+      })
+    } catch (error: any) {
+      console.error("Failed to switch account:", error)
+      // User cancelled, don't show alert
+      if (error.code !== 4001) {
+        alert(error.message || "Failed to switch account")
+      }
+    }
+  }
+
   const connect = async () => {
     if (typeof window === "undefined") return
 
@@ -100,5 +139,6 @@ export function useMetaMask() {
     ...state,
     connect,
     disconnect,
+    switchAccount,
   }
 }

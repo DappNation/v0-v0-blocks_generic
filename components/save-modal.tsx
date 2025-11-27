@@ -8,6 +8,7 @@ import { updateCreation } from "@/lib/actions/update-creation"
 import type { Brick } from "@/components/v0-blocks/events"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { useMetaMask } from "@/hooks/use-metamask"
 
 interface SaveModalProps {
   isOpen: boolean
@@ -22,6 +23,8 @@ export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, c
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [isSuccess, setIsSuccess] = useState(false)
+
+  const { account } = useMetaMask()
 
   // Update name when currentName changes
   useEffect(() => {
@@ -39,7 +42,9 @@ export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, c
     setMessage("")
 
     try {
-      const result = currentId ? await updateCreation(currentId, name, bricks) : await saveCreation(name, bricks)
+      const result = currentId
+        ? await updateCreation(currentId, name, bricks, account || undefined)
+        : await saveCreation(name, bricks, account || undefined)
 
       setIsSuccess(result.success)
       setMessage(result.message || "")
@@ -87,7 +92,7 @@ export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, c
         )}
 
         <DialogFooter className="flex justify-end gap-3">
-          <Button onClick={onClose} variant="outline" className="rounded-full" disabled={isSaving}>
+          <Button onClick={onClose} variant="outline" className="rounded-full bg-transparent" disabled={isSaving}>
             Cancel
           </Button>
           <Button

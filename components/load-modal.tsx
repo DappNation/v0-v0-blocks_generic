@@ -9,6 +9,7 @@ import { deleteCreation } from "@/lib/actions/delete-creation"
 import type { SavedCreation } from "@/lib/types"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { useMetaMask } from "@/hooks/use-metamask"
 
 interface LoadModalProps {
   isOpen: boolean
@@ -22,18 +23,20 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
   const [error, setError] = useState("")
   const [isDeleting, setIsDeleting] = useState<string | null>(null)
 
+  const { account } = useMetaMask()
+
   useEffect(() => {
     if (isOpen) {
       loadCreations()
     }
-  }, [isOpen])
+  }, [isOpen, account])
 
   const loadCreations = async () => {
     setIsLoading(true)
     setError("")
 
     try {
-      const result = await getCreations(20, 0)
+      const result = await getCreations(20, 0, account || undefined)
 
       if (result.success) {
         setCreations(result.creations || [])
@@ -59,7 +62,7 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
     setIsDeleting(id)
 
     try {
-      const result = await deleteCreation(id)
+      const result = await deleteCreation(id, account || undefined)
 
       if (result.success) {
         // Remove from local state
@@ -99,7 +102,7 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Load Creation</DialogTitle>
           <div className="flex justify-between items-center mt-2">
-            <p className="text-gray-600">Select a creation to load</p>
+            <p className="text-gray-600">{account ? "Your saved creations" : "Select a creation to load"}</p>
             <Button
               onClick={loadCreations}
               variant="ghost"
@@ -123,7 +126,9 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
               <CreationSkeleton />
             </div>
           ) : creations.length === 0 ? (
-            <div className="text-center py-10 text-gray-500">No saved creations found</div>
+            <div className="text-center py-10 text-gray-500">
+              {account ? "You haven't saved any builds yet" : "No saved creations found"}
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-3">
               {creations.map((creation) => (

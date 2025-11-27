@@ -4,12 +4,16 @@ import { kv } from "@vercel/kv"
 import { revalidatePath } from "next/cache"
 
 // Delete a creation
-export async function deleteCreation(id: string) {
+export async function deleteCreation(id: string, walletAddress?: string) {
   try {
     // Delete from Redis
     await kv.del(`creation:${id}`)
 
-    // Remove from sorted set
+    if (walletAddress) {
+      await kv.zrem(`user:${walletAddress}:creations`, id)
+    }
+
+    // Remove from global sorted set
     await kv.zrem("creations", id)
 
     revalidatePath("/")
