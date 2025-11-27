@@ -93,8 +93,8 @@ importers:
         specifier: ^1.1.6
         version: 1.1.6(@types/react-dom@18.0.0)(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@rainbow-me/rainbowkit':
-        specifier: 2.1.6
-        version: 2.1.6(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))(wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1)))
+        specifier: ^2.2.0
+        version: 2.2.0(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))(wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1)))
       '@react-three/drei':
         specifier: latest
         version: 10.7.7(@react-three/fiber@9.4.0(f37e677c118200777ff31b8831854ea9))(@types/react@18.0.0)(@types/three@0.169.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(three@0.181.2)
@@ -189,11 +189,11 @@ importers:
         specifier: ^0.9.6
         version: 0.9.6(@types/react-dom@18.0.0)(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       viem:
-        specifier: 2.21.19
-        version: 2.21.19(typescript@5.0.2)(zod@3.24.1)
+        specifier: ^2.22.0
+        version: 2.22.0(typescript@5.0.2)(zod@3.24.1)
       wagmi:
         specifier: latest
-        version: 3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))
+        version: 3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -1100,12 +1100,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@noble/curves@1.6.0':
-    resolution: {integrity: sha512-TlaHRXDehJuRNR9TfZDNQ45mMEd5dwUwmicsafcIX4SsNiqnCHKjE/1alYPd/lDRVhxdhUAlv8uEhMCI5zjIJQ==}
+  '@noble/curves@1.7.0':
+    resolution: {integrity: sha512-UTMhXK9SeDhFJVrHeUJ5uZlI6ajXg10O6Ddocf9S6GjbSBVZsJo88HzKwXznNfGpMTRDyJkqMjNDPYgf0qFWnw==}
     engines: {node: ^14.21.3 || >=16}
 
-  '@noble/hashes@1.5.0':
-    resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
+  '@noble/hashes@1.6.0':
+    resolution: {integrity: sha512-YUULf0Uk4/mAA89w+k3+yUYh6NrEvxZa5T6SY3wlMvE2chHkxFUUIDI8/XW1QSC357iA5pSnqt7XEhvFOqmDyQ==}
+    engines: {node: ^14.21.3 || >=16}
+
+  '@noble/hashes@1.6.1':
+    resolution: {integrity: sha512-pq5D8h10hHBjyqX+cfBm0i8JUXJ0UhczFc4r74zbuT9XgewFo2E3J1cOaGtdZynILNmQ685YWGzGE1Zv6io50w==}
     engines: {node: ^14.21.3 || >=16}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -2019,8 +2023,8 @@ packages:
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
 
-  '@rainbow-me/rainbowkit@2.1.6':
-    resolution: {integrity: sha512-DCt6VYuPPxcPY6veuSOa784mHHHN0uSdDBTivdUBssmjTwHMmOrEs6kuKSYTPRu8EAwA1AvIc+ulSVnS022nbg==}
+  '@rainbow-me/rainbowkit@2.2.0':
+    resolution: {integrity: sha512-N0wQ39UN6Soi6/ujk9lVy5KY2oY6me/dqMPe5BYWlZIKbpBc2De3cl9phSLPw+/rncL3Cp1r6kRZuMe0b+mP9Q==}
     engines: {node: '>=12.4'}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
@@ -2148,14 +2152,14 @@ packages:
       react-native:
         optional: true
 
-  '@scure/base@1.1.9':
-    resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
+  '@scure/base@1.2.6':
+    resolution: {integrity: sha512-g/nm5FgUa//MCj1gV09zTJTaM6KBAHqLN907YVQqf7zC49+DcO4B1so4ZX07Ef10Twr6nuqYEH9GEggFXA4Fmg==}
 
-  '@scure/bip32@1.5.0':
-    resolution: {integrity: sha512-8EnFYkqEQdnkuGBVpCzKxyIwDCBLDVj3oiX0EKUFre/tOjL/Hqba1D6n/8RcmaQy4f95qQFrO2A8Sr6ybh4NRw==}
+  '@scure/bip32@1.6.0':
+    resolution: {integrity: sha512-82q1QfklrUUdXJzjuRU7iG7D7XiFx5PHYVS0+oeNKhyDLT7WPqs6pBcM2W5ZdwOwKCwoE1Vy1se+DHjcXwCYnA==}
 
-  '@scure/bip39@1.4.0':
-    resolution: {integrity: sha512-BEEm6p8IueV/ZTfQLp/0vhw4NPnT9oWf5+28nvmeUICjP99f4vr2d+qc7AVGDDtwRep6ifR43Yed9ERVmiITzw==}
+  '@scure/bip39@1.5.0':
+    resolution: {integrity: sha512-Dop+ASYhnrwm9+HA/HwXg7j2ZqM6yk2fyLWb5znexjctFY3+E+eU8cIWI0Pql0Qx4hPZCijlGq4OL71g+Uz30A==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -2376,8 +2380,8 @@ packages:
     resolution: {integrity: sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==}
     engines: {node: '>=10.0.0'}
 
-  abitype@1.0.6:
-    resolution: {integrity: sha512-MMSqYh4+C/aVqI2RQaWqbvI4Kxo5cQV40WQ4QFtDnNzCkqChm8MuENhElmynZlO0qUy/ObkEUaXtKqYnx1Kp3A==}
+  abitype@1.0.7:
+    resolution: {integrity: sha512-ZfYYSktDQUwc2eduYu8C4wOs+RDPmnRYMh7zNfzeMtGGgb0U+6tLGjixUic6mXf5xKKCcgT5Qp6cv39tOARVFw==}
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.22.0
@@ -3904,6 +3908,14 @@ packages:
     resolution: {integrity: sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==}
     engines: {node: '>=6'}
 
+  ox@0.6.0:
+    resolution: {integrity: sha512-blUzTLidvUlshv0O02CnLFqBLidNzPoAZdIth894avUAotTuWziznv6IENv5idRuOSSP3dH8WzcYw84zVdu0Aw==}
+    peerDependencies:
+      typescript: '>=5.4.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   p-limit@2.3.0:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
     engines: {node: '>=6'}
@@ -4745,8 +4757,8 @@ packages:
   victory-vendor@36.9.2:
     resolution: {integrity: sha512-PnpQQMuxlwYdocC8fIJqVXvkeViHYzotI+NJrCuav0ZYFoq912ZHBk3mCeuj+5/VpodOjPe1z0Fk2ihgzlXqjQ==}
 
-  viem@2.21.19:
-    resolution: {integrity: sha512-FdlkN+UI1IU5sYOmzvygkxsUNjDRD5YHht3gZFu2X9xFv6Z3h9pXq9ycrYQ3F17lNfb41O2Ot4/aqbUkwOv9dA==}
+  viem@2.22.0:
+    resolution: {integrity: sha512-ZhBiSQYqXeoJHqvEEaRiA9zphO9hlpbGYv+I4F/cQOo7NsJQA+F1EbZT0c7BoUG9nOmKmxyF9b69S+iI2PESqA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -6136,11 +6148,13 @@ snapshots:
   '@next/swc-win32-x64-msvc@15.0.3':
     optional: true
 
-  '@noble/curves@1.6.0':
+  '@noble/curves@1.7.0':
     dependencies:
-      '@noble/hashes': 1.5.0
+      '@noble/hashes': 1.6.0
 
-  '@noble/hashes@1.5.0': {}
+  '@noble/hashes@1.6.0': {}
+
+  '@noble/hashes@1.6.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7077,7 +7091,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.1': {}
 
-  '@rainbow-me/rainbowkit@2.1.6(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))(wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1)))':
+  '@rainbow-me/rainbowkit@2.2.0(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))(wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1)))':
     dependencies:
       '@tanstack/react-query': 5.90.11(react@19.0.0)
       '@vanilla-extract/css': 1.15.5
@@ -7089,8 +7103,8 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       react-remove-scroll: 2.6.0(@types/react@18.0.0)(react@19.0.0)
       ua-parser-js: 1.0.41
-      viem: 2.21.19(typescript@5.0.2)(zod@3.24.1)
-      wagmi: 3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))
+      viem: 2.22.0(typescript@5.0.2)(zod@3.24.1)
+      wagmi: 3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))
     transitivePeerDependencies:
       - '@types/react'
       - babel-plugin-macros
@@ -7312,18 +7326,18 @@ snapshots:
       - '@types/react'
       - immer
 
-  '@scure/base@1.1.9': {}
+  '@scure/base@1.2.6': {}
 
-  '@scure/bip32@1.5.0':
+  '@scure/bip32@1.6.0':
     dependencies:
-      '@noble/curves': 1.6.0
-      '@noble/hashes': 1.5.0
-      '@scure/base': 1.1.9
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
+      '@scure/base': 1.2.6
 
-  '@scure/bip39@1.4.0':
+  '@scure/bip39@1.5.0':
     dependencies:
-      '@noble/hashes': 1.5.0
-      '@scure/base': 1.1.9
+      '@noble/hashes': 1.6.1
+      '@scure/base': 1.2.6
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -7516,18 +7530,18 @@ snapshots:
     dependencies:
       '@upstash/redis': 1.35.7
 
-  '@wagmi/connectors@7.0.2(@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.21.19(typescript@5.0.2)(zod@3.24.1)))(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))':
+  '@wagmi/connectors@7.0.2(@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.22.0(typescript@5.0.2)(zod@3.24.1)))(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))':
     dependencies:
-      '@wagmi/core': 3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))
-      viem: 2.21.19(typescript@5.0.2)(zod@3.24.1)
+      '@wagmi/core': 3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))
+      viem: 2.22.0(typescript@5.0.2)(zod@3.24.1)
     optionalDependencies:
       typescript: 5.0.2
 
-  '@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))':
+  '@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))':
     dependencies:
       eventemitter3: 5.0.1
       mipd: 0.0.7(typescript@5.0.2)
-      viem: 2.21.19(typescript@5.0.2)(zod@3.24.1)
+      viem: 2.22.0(typescript@5.0.2)(zod@3.24.1)
       zustand: 5.0.0(@types/react@18.0.0)(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
     optionalDependencies:
       '@tanstack/query-core': 5.90.11
@@ -7542,7 +7556,7 @@ snapshots:
 
   '@xmldom/xmldom@0.8.11': {}
 
-  abitype@1.0.6(typescript@5.0.2)(zod@3.24.1):
+  abitype@1.0.7(typescript@5.0.2)(zod@3.24.1):
     optionalDependencies:
       typescript: 5.0.2
       zod: 3.24.1
@@ -9247,6 +9261,20 @@ snapshots:
       strip-ansi: 5.2.0
       wcwidth: 1.0.1
 
+  ox@0.6.0(typescript@5.0.2)(zod@3.24.1):
+    dependencies:
+      '@adraffy/ens-normalize': 1.11.0
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
+      '@scure/bip32': 1.6.0
+      '@scure/bip39': 1.5.0
+      abitype: 1.0.7(typescript@5.0.2)(zod@3.24.1)
+      eventemitter3: 5.0.1
+    optionalDependencies:
+      typescript: 5.0.2
+    transitivePeerDependencies:
+      - zod
+
   p-limit@2.3.0:
     dependencies:
       p-try: 2.2.0
@@ -10128,15 +10156,15 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  viem@2.21.19(typescript@5.0.2)(zod@3.24.1):
+  viem@2.22.0(typescript@5.0.2)(zod@3.24.1):
     dependencies:
-      '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.6.0
-      '@noble/hashes': 1.5.0
-      '@scure/bip32': 1.5.0
-      '@scure/bip39': 1.4.0
-      abitype: 1.0.6(typescript@5.0.2)(zod@3.24.1)
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
+      '@scure/bip32': 1.6.0
+      '@scure/bip39': 1.5.0
+      abitype: 1.0.7(typescript@5.0.2)(zod@3.24.1)
       isows: 1.0.6(ws@8.18.0)
+      ox: 0.6.0(typescript@5.0.2)(zod@3.24.1)
       webauthn-p256: 0.0.10
       ws: 8.18.0
     optionalDependencies:
@@ -10148,14 +10176,14 @@ snapshots:
 
   vlq@1.0.1: {}
 
-  wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1)):
+  wagmi@3.0.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.0.0))(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1)):
     dependencies:
       '@tanstack/react-query': 5.90.11(react@19.0.0)
-      '@wagmi/connectors': 7.0.2(@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.21.19(typescript@5.0.2)(zod@3.24.1)))(typescript@5.0.2)(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))
-      '@wagmi/core': 3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.21.19(typescript@5.0.2)(zod@3.24.1))
+      '@wagmi/connectors': 7.0.2(@wagmi/core@3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.22.0(typescript@5.0.2)(zod@3.24.1)))(typescript@5.0.2)(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))
+      '@wagmi/core': 3.0.0(@tanstack/query-core@5.90.11)(@types/react@18.0.0)(react@19.0.0)(typescript@5.0.2)(use-sync-external-store@1.4.0(react@19.0.0))(viem@2.22.0(typescript@5.0.2)(zod@3.24.1))
       react: 19.0.0
       use-sync-external-store: 1.4.0(react@19.0.0)
-      viem: 2.21.19(typescript@5.0.2)(zod@3.24.1)
+      viem: 2.22.0(typescript@5.0.2)(zod@3.24.1)
     optionalDependencies:
       typescript: 5.0.2
     transitivePeerDependencies:
@@ -10181,8 +10209,8 @@ snapshots:
 
   webauthn-p256@0.0.10:
     dependencies:
-      '@noble/curves': 1.6.0
-      '@noble/hashes': 1.5.0
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
 
   webgl-constants@1.1.1: {}
 
