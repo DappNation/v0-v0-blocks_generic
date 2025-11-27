@@ -2,10 +2,11 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Cable as Cube, Menu } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { WalletConnect } from "@/components/wallet-connect"
+import Image from "next/image"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -22,10 +23,10 @@ export function SiteHeader() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[hsl(var(--ethblox-border))] bg-[hsl(var(--ethblox-bg))]/95 backdrop-blur-md">
       <div className="flex h-14 items-center justify-between px-6 max-w-[1800px] mx-auto">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity group">
-          <div className="p-1.5 rounded border border-[hsl(var(--ethblox-border))] bg-[hsl(var(--ethblox-surface))] group-hover:border-[hsl(var(--ethblox-accent-cyan))] transition-colors">
-            <Cube className="w-4 h-4 text-[hsl(var(--ethblox-accent-cyan))]" />
+          <div className="relative w-6 h-6 group-hover:scale-105 transition-transform">
+            <Image src="/images/ethblox-logo.png" alt="ETHBLOX" width={24} height={24} className="object-contain" />
           </div>
-          <span className="text-sm font-heading font-semibold tracking-wider text-[hsl(var(--ethblox-text-primary))]">
+          <span className="text-sm font-heading font-semibold tracking-wider text-[hsl(var(--ethblox-yellow))]">
             ETHBLOX
           </span>
         </Link>

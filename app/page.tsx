@@ -14,7 +14,7 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-10">
               <div className="space-y-6">
-                <h1 className="text-8xl md:text-9xl font-heading font-bold tracking-tighter leading-none ethblox-gradient-text">
+                <h1 className="text-8xl md:text-9xl font-heading font-bold tracking-tighter leading-none text-[hsl(var(--ethblox-yellow))]">
                   ETHBLOX
                 </h1>
                 <p className="text-xl md:text-2xl text-[hsl(var(--ethblox-text-primary))] font-light leading-relaxed">
@@ -27,10 +27,14 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <a href="https://ethblox.art/lightpaper" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://docs.google.com/document/d/e/2PACX-1vQ1rIXEv29dH1xJ5R2Y-nPWx4k-Lbknw_IvIDhLvu2bUxuAyJCs3pgq48CXGZB7UMM4a32H08PKbNqB/pub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Button
                     size="lg"
-                    className="bg-[hsl(var(--ethblox-accent-cyan))] hover:bg-[hsl(var(--ethblox-accent-cyan))]/90 text-[hsl(var(--ethblox-bg))] font-heading font-semibold px-6 gap-2 ethblox-glow"
+                    className="bg-[hsl(var(--ethblox-green))] hover:bg-[hsl(var(--ethblox-green))]/90 text-[hsl(var(--ethblox-bg))] font-heading font-semibold px-6 gap-2 ethblox-glow"
                   >
                     READ THE PAPER
                   </Button>
@@ -53,11 +57,16 @@ export default function LandingPage() {
             </div>
 
             <div className="relative aspect-square rounded border border-[hsl(var(--ethblox-border))] overflow-hidden ethblox-glow">
-              <img
-                src="/abstract-3d-geometric-blocks-floating-in-industria.jpg"
-                alt="ETHBLOX 3D visualization"
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
                 className="w-full h-full object-cover opacity-80"
-              />
+                style={{ filter: "contrast(1.1) brightness(0.9)" }}
+              >
+                <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screen%20Recording%202025-11-28%20at%202.57.04%20am-bljZ6a35yqhhTBMkK6IXjulErdgWRq.mp4#t=0.001" type="video/mp4" />
+              </video>
               <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--ethblox-bg))] via-transparent to-transparent" />
             </div>
           </div>

@@ -7,25 +7,18 @@
   --font-heading: var(--font-space-grotesk);
 }
 
-html,
+/* Remove overflow hidden and fixed positioning from html/body to allow scrolling on landing page */
+html {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  position: fixed;
-  touch-action: none;
-  overscroll-behavior: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-body {
   font-family: var(--font-geist);
-  touch-action: manipulation;
 }
 
 @layer utilities {
@@ -45,19 +38,19 @@ body {
     --card-foreground: 210 8% 95%;
     --popover: 210 11% 12%;
     --popover-foreground: 210 8% 95%;
-    --primary: 165 100% 48%;
+    --primary: 142 76% 63%;
     --primary-foreground: 210 11% 15%;
     --secondary: 210 8% 25%;
     --secondary-foreground: 210 8% 95%;
     --muted: 210 8% 25%;
     --muted-foreground: 210 8% 60%;
-    --accent: 165 100% 48%;
+    --accent: 142 76% 63%;
     --accent-foreground: 210 11% 15%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     --border: 210 8% 28%;
     --input: 210 8% 28%;
-    --ring: 165 100% 48%;
+    --ring: 142 76% 63%;
     --radius: 0.25rem;
 
     --ethblox-bg: 210 11% 15%;
@@ -68,8 +61,11 @@ body {
     --ethblox-text-primary: 210 8% 95%;
     --ethblox-text-secondary: 210 8% 60%;
     --ethblox-text-tertiary: 210 8% 40%;
-    --ethblox-accent-cyan: 165 100% 48%;
-    --ethblox-accent-cyan-dim: 165 60% 35%;
+    --ethblox-yellow: 48 96% 68%;
+    --ethblox-green: 142 76% 63%;
+    --ethblox-blue: 195 92% 68%;
+    --ethblox-accent-cyan: 142 76% 63%;
+    --ethblox-accent-cyan-dim: 142 60% 45%;
   }
 }
 
@@ -83,16 +79,16 @@ body {
 }
 
 .ethblox-glow {
-  box-shadow: 0 0 20px rgba(0, 255, 194, 0.15);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
 }
 
 .ethblox-border-glow {
   border-color: hsl(var(--ethblox-accent-cyan));
-  box-shadow: 0 0 10px rgba(0, 255, 194, 0.3);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
 }
 
 .ethblox-gradient-text {
-  background: linear-gradient(135deg, hsl(var(--ethblox-text-primary)) 0%, hsl(var(--ethblox-accent-cyan)) 100%);
+  background: linear-gradient(135deg, hsl(var(--ethblox-yellow)) 0%, hsl(var(--ethblox-green)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
