@@ -16,7 +16,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
-  swcMinify: true,
   async headers() {
     return [
       {
