@@ -5,10 +5,14 @@ import { revalidatePath } from "next/cache"
 import type { Brick } from "@/components/v0-blocks/events"
 import type { SavedCreation } from "../types"
 
-// Update an existing creation
-export async function updateCreation(id: string, name: string, bricks: Brick[], walletAddress?: string) {
+export async function updateCreation(
+  id: string,
+  name: string,
+  bricks: Brick[],
+  baseSize: number,
+  walletAddress?: string,
+) {
   try {
-    // Get the existing creation
     const existingCreationStr = await kv.get(`creation:${id}`)
 
     if (!existingCreationStr) {
@@ -25,16 +29,15 @@ export async function updateCreation(id: string, name: string, bricks: Brick[], 
       name,
       bricks,
       updatedAt: timestamp,
+      baseSize, // Update baseSize when saving over existing creation
     }
 
-    // Update in Redis
     await kv.set(`creation:${id}`, JSON.stringify(updatedCreation))
 
     if (walletAddress) {
       await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
     }
 
-    // Update score in global sorted set
     await kv.zadd("creations", { score: timestamp, member: id })
 
     revalidatePath("/")

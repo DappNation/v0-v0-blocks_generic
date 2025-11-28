@@ -5,7 +5,13 @@ export type Brick = {
   color: string
   position: [number, number, number]
   width: number
-  height: number
+  height: number // This is actually depth (Z-axis), kept for backwards compatibility
+  shapeId?: string // Canonical shape identifier for on-chain tracking
+}
+
+export function getShapeIdForBrickDimensions(width: number, height: number): string {
+  // Use a stable, human-readable ID. We treat height as depth.
+  return `rect-${width}x${height}`
 }
 
 export type BrickHistory = Brick[][]

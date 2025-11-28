@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
-import { GRID_SIZE, BRICK_HEIGHT, LAYER_GAP, GROUND_HEIGHT } from "@/lib/constants"
+import { BRICK_HEIGHT, LAYER_GAP, GROUND_HEIGHT } from "@/lib/constants"
 import type { Brick } from "@/components/v0-blocks/events"
 
 interface UseSceneInteractionProps {
@@ -15,6 +15,7 @@ interface UseSceneInteractionProps {
   onDeleteBrick?: (index: number) => void
   isPlaying: boolean
   interactionMode: "build" | "move" | "erase"
+  gridSize: number // Added gridSize prop for dynamic grid boundaries
 }
 
 export function useSceneInteraction({
@@ -26,6 +27,7 @@ export function useSceneInteraction({
   onDeleteBrick,
   isPlaying,
   interactionMode,
+  gridSize, // Accept gridSize parameter
 }: UseSceneInteractionProps) {
   const [currentBrickPosition, setCurrentBrickPosition] = useState<[number, number, number]>([
     0,
@@ -107,7 +109,7 @@ export function useSceneInteraction({
     const top = Math.floor(z - depth / 2)
     const bottom = Math.ceil(z + depth / 2)
 
-    if (left < -GRID_SIZE / 2 || right > GRID_SIZE / 2 || top < -GRID_SIZE / 2 || bottom > GRID_SIZE / 2) {
+    if (left < -gridSize / 2 || right > gridSize / 2 || top < -gridSize / 2 || bottom > gridSize / 2) {
       return false
     }
 

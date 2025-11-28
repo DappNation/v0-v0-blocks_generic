@@ -16,9 +16,17 @@ interface SaveModalProps {
   bricks: Brick[]
   currentId?: string
   currentName?: string
+  baseSize: number
 }
 
-export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, currentId, currentName = "" }) => {
+export const SaveModal: React.FC<SaveModalProps> = ({
+  isOpen,
+  onClose,
+  bricks,
+  currentId,
+  currentName = "",
+  baseSize,
+}) => {
   const [name, setName] = useState(currentName)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
@@ -26,7 +34,6 @@ export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, c
 
   const { account } = useMetaMask()
 
-  // Update name when currentName changes
   useEffect(() => {
     setName(currentName || "")
   }, [currentName])
@@ -43,14 +50,13 @@ export const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, bricks, c
 
     try {
       const result = currentId
-        ? await updateCreation(currentId, name, bricks, account || undefined)
-        : await saveCreation(name, bricks, account || undefined)
+        ? await updateCreation(currentId, name, bricks, baseSize, account || undefined)
+        : await saveCreation(name, bricks, baseSize, account || undefined)
 
       setIsSuccess(result.success)
       setMessage(result.message || "")
 
       if (result.success) {
-        // Close modal after a short delay
         setTimeout(() => {
           onClose()
         }, 1500)

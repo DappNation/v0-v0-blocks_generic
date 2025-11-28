@@ -6,8 +6,7 @@ import { revalidatePath } from "next/cache"
 import type { Brick } from "@/components/v0-blocks/events"
 import type { SavedCreation } from "../types"
 
-// Save the current blocks to Redis
-export async function saveCreation(name: string, bricks: Brick[], walletAddress?: string) {
+export async function saveCreation(name: string, bricks: Brick[], baseSize: number, walletAddress?: string) {
   try {
     const id = nanoid(10)
     const timestamp = Date.now()
@@ -18,16 +17,15 @@ export async function saveCreation(name: string, bricks: Brick[], walletAddress?
       bricks,
       createdAt: timestamp,
       updatedAt: timestamp,
+      baseSize, // Include baseSize in saved creation
     }
 
-    // Save to Redis
     await kv.set(`creation:${id}`, JSON.stringify(creation))
 
     if (walletAddress) {
       await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
     }
 
-    // Also add to global list for backwards compatibility
     await kv.zadd("creations", { score: timestamp, member: id })
 
     revalidatePath("/")

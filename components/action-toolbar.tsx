@@ -8,12 +8,18 @@ import { SimpleTooltip } from "./simple-tooltip"
 interface ActionToolbarProps {
   onModeChange: (mode: "build" | "move" | "erase") => void
   currentMode: "build" | "move" | "erase"
+  baseSize: number
+  onBaseSizeChange: (value: number) => void
 }
 
-export const ActionToolbar: React.FC<ActionToolbarProps> = ({ onModeChange, currentMode }) => {
+export const ActionToolbar: React.FC<ActionToolbarProps> = ({
+  onModeChange,
+  currentMode,
+  baseSize,
+  onBaseSizeChange,
+}) => {
   const [isMobile, setIsMobile] = useState(false)
 
-  // Detect mobile device
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
@@ -24,7 +30,6 @@ export const ActionToolbar: React.FC<ActionToolbarProps> = ({ onModeChange, curr
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // Conditionally render tooltip based on device
   const MaybeTooltip = ({ text, children }) => {
     if (isMobile) {
       return children
@@ -38,6 +43,18 @@ export const ActionToolbar: React.FC<ActionToolbarProps> = ({ onModeChange, curr
 
   return (
     <div className="fixed top-1/2 -translate-y-1/2 left-4 flex flex-col gap-3 z-20">
+      <div className="bg-black/30 rounded-lg p-2 backdrop-blur-sm">
+        <label className="text-xs text-white/80 block mb-1">Base Size</label>
+        <input
+          type="number"
+          min={4}
+          max={40}
+          value={baseSize}
+          onChange={(e) => onBaseSizeChange(Number(e.target.value) || 4)}
+          className="w-16 rounded border border-white/20 bg-black/50 px-2 py-1 text-xs text-white text-center"
+        />
+      </div>
+
       <MaybeTooltip text="Build (b)">
         <button
           onClick={() => onModeChange("build")}

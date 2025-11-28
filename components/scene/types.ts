@@ -11,4 +11,5 @@ export interface SceneProps {
   onRedo: () => void
   isPlaying: boolean
   interactionMode?: "build" | "move" | "erase"
+  gridSize: number // Dynamic grid size instead of global GRID_SIZE
 }

@@ -35,6 +35,7 @@ export type SavedCreation = {
   bricks: Brick[]
   createdAt: number
   updatedAt: number
+  baseSize?: number // Grid size for this build (optional for backwards compatibility)
 }
 
 // Helper to convert Brick[] to BloxUnit[]
@@ -59,4 +60,36 @@ export function bloxToBricks(blox: BloxUnit[]): Brick[] {
 // Calculate Builder Weight (BW)
 export function calculateBW(mass: number, uniqueColors: number): number {
   return Math.log(1 + mass) * Math.log(2 + uniqueColors)
+}
+
+// ShapeUsage type and helper for on-chain rewards tracking
+export type ShapeUsage = {
+  shapeId: string
+  width: number
+  height: number // depth (Z)
+  count: number
+}
+
+export function computeShapeUsage(bricks: Brick[]): ShapeUsage[] {
+  const map = new Map<string, { width: number; height: number; count: number }>()
+
+  for (const brick of bricks) {
+    const width = brick.width
+    const height = brick.height
+    const shapeId = brick.shapeId ?? `rect-${width}x${height}`
+
+    const existing = map.get(shapeId)
+    if (existing) {
+      existing.count += 1
+    } else {
+      map.set(shapeId, { width, height, count: 1 })
+    }
+  }
+
+  return Array.from(map.entries()).map(([shapeId, { width, height, count }]) => ({
+    shapeId,
+    width,
+    height,
+    count,
+  }))
 }

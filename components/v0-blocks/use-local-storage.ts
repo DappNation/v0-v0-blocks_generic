@@ -13,6 +13,7 @@ interface UseLocalStorageProps {
   currentTheme: ColorTheme
   currentCreationId?: string
   currentCreationName?: string
+  baseSize: number
   setBricks: (bricks: Brick[]) => void
   setWidth: (width: number) => void
   setDepth: (depth: number) => void
@@ -22,6 +23,7 @@ interface UseLocalStorageProps {
   setCurrentCreationName: (name?: string) => void
   setHistory: (history: Brick[][]) => void
   setHistoryIndex: (index: number) => void
+  setBaseSize: (size: number) => void
 }
 
 export function useLocalStorage({
@@ -32,6 +34,7 @@ export function useLocalStorage({
   currentTheme,
   currentCreationId,
   currentCreationName,
+  baseSize,
   setBricks,
   setWidth,
   setDepth,
@@ -41,17 +44,16 @@ export function useLocalStorage({
   setCurrentCreationName,
   setHistory,
   setHistoryIndex,
+  setBaseSize,
 }: UseLocalStorageProps) {
   const hasLocalStorage = useRef<boolean>(false)
   const isInitialLoad = useRef<boolean>(true)
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Check if localStorage is available
   useEffect(() => {
     hasLocalStorage.current = isLocalStorageAvailable()
   }, [])
 
-  // Load data from localStorage on initial mount
   useEffect(() => {
     if (!hasLocalStorage.current) return
 
@@ -67,8 +69,10 @@ export function useLocalStorage({
             setHistoryIndex(0)
             setCurrentCreationId(creation.id)
             setCurrentCreationName(creation.name)
+            if (creation.baseSize) {
+              setBaseSize(creation.baseSize)
+            }
 
-            // Clear the load flag
             localStorage.removeItem("ethblox-load-creation")
             isInitialLoad.current = false
             return
@@ -79,11 +83,9 @@ export function useLocalStorage({
         }
       }
 
-      // Otherwise, load the normal saved state
       const savedState = loadFromLocalStorage()
 
       if (savedState) {
-        // Only restore if there are bricks to restore
         if (savedState.bricks && savedState.bricks.length > 0) {
           setBricks(savedState.bricks)
           setWidth(savedState.width || 2)
@@ -102,7 +104,10 @@ export function useLocalStorage({
             setCurrentCreationName(savedState.creationName)
           }
 
-          // Initialize history with the loaded bricks
+          if (savedState.baseSize) {
+            setBaseSize(savedState.baseSize)
+          }
+
           setHistory([[...savedState.bricks]])
           setHistoryIndex(0)
         }
@@ -120,18 +125,16 @@ export function useLocalStorage({
     setCurrentCreationName,
     setHistory,
     setHistoryIndex,
+    setBaseSize,
   ])
 
-  // Save data to localStorage whenever state changes (debounced)
   useEffect(() => {
     if (!hasLocalStorage.current || isInitialLoad.current) return
 
-    // Clear any existing timeout
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current)
     }
 
-    // Set a new timeout to save after 500ms of inactivity
     saveTimeoutRef.current = setTimeout(() => {
       saveToLocalStorage({
         bricks,
@@ -141,14 +144,14 @@ export function useLocalStorage({
         currentTheme,
         creationId: currentCreationId,
         creationName: currentCreationName,
+        baseSize,
       })
     }, 500)
 
-    // Cleanup timeout on unmount
     return () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
     }
-  }, [bricks, width, depth, selectedColor, currentTheme, currentCreationId, currentCreationName])
+  }, [bricks, width, depth, selectedColor, currentTheme, currentCreationId, currentCreationName, baseSize])
 }

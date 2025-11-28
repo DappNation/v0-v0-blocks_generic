@@ -10,7 +10,6 @@ import { EraseMode } from "./erase-mode"
 import { LightingSetup } from "./lighting-setup"
 import { useSceneInteraction } from "./use-scene-interaction"
 import { Block } from "../block"
-import { GRID_SIZE } from "@/lib/constants"
 
 export const Scene: React.FC<SceneProps> = ({
   bricks,
@@ -23,6 +22,7 @@ export const Scene: React.FC<SceneProps> = ({
   onRedo,
   isPlaying,
   interactionMode = "build",
+  gridSize, // Accept gridSize as prop
 }) => {
   const {
     currentBrickPosition,
@@ -44,15 +44,15 @@ export const Scene: React.FC<SceneProps> = ({
     onDeleteBrick,
     isPlaying,
     interactionMode,
+    gridSize, // Pass gridSize to useSceneInteraction
   })
 
   return (
     <>
       <SoftShadows size={25} samples={16} focus={0.5} />
       <LargePlane />
-      <Platform />
+      <Platform gridSize={gridSize} />
 
-      {/* Render all bricks */}
       {bricks.map((brick, index) => (
         <Block
           key={index}
@@ -65,7 +65,6 @@ export const Scene: React.FC<SceneProps> = ({
         />
       ))}
 
-      {/* Render appropriate mode components */}
       {interactionMode === "build" && !isPlaying && (
         <BuildMode
           showNewBrick={showNewBrick}
@@ -79,7 +78,6 @@ export const Scene: React.FC<SceneProps> = ({
 
       {interactionMode === "erase" && !isPlaying && <EraseMode />}
 
-      {/* The plane is always present but only interactive when not playing and in build mode */}
       <mesh
         ref={planeRef}
         rotation={[-Math.PI / 2, 0, 0]}
@@ -90,7 +88,7 @@ export const Scene: React.FC<SceneProps> = ({
         onPointerUp={handleTouchEnd}
         onPointerLeave={handleTouchEnd}
       >
-        <planeGeometry args={[GRID_SIZE, GRID_SIZE]} />
+        <planeGeometry args={[gridSize, gridSize]} />
         <meshBasicMaterial visible={false} />
       </mesh>
 

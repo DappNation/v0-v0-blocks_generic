@@ -4,24 +4,29 @@ import type React from "react"
 import { useMemo } from "react"
 import * as THREE from "three"
 import { Instances, Instance } from "@react-three/drei"
-import { GRID_SIZE, GROUND_HEIGHT, STUD_HEIGHT, STUD_RADIUS } from "@/lib/constants"
+import { GROUND_HEIGHT, STUD_HEIGHT, STUD_RADIUS } from "@/lib/constants"
 
-export const Platform: React.FC = () => {
+interface PlatformProps {
+  gridSize: number
+}
+
+export const Platform: React.FC<PlatformProps> = ({ gridSize }) => {
   const studGeometry = useMemo(() => new THREE.CylinderGeometry(STUD_RADIUS, STUD_RADIUS, STUD_HEIGHT, 12), [])
+
   const studPositions = useMemo(() => {
     const positions = []
-    for (let x = -GRID_SIZE / 2 + 0.5; x < GRID_SIZE / 2; x++) {
-      for (let z = -GRID_SIZE / 2 + 0.5; z < GRID_SIZE / 2; z++) {
+    for (let x = -gridSize / 2 + 0.5; x < gridSize / 2; x++) {
+      for (let z = -gridSize / 2 + 0.5; z < gridSize / 2; z++) {
         positions.push([x, GROUND_HEIGHT / 2 + STUD_HEIGHT / 2, z])
       }
     }
     return positions
-  }, [])
+  }, [gridSize])
 
   return (
     <group>
       <mesh position={[0, 0, 0]} receiveShadow>
-        <boxGeometry args={[GRID_SIZE, GROUND_HEIGHT, GRID_SIZE]} />
+        <boxGeometry args={[gridSize, GROUND_HEIGHT, gridSize]} />
         <meshPhysicalMaterial
           color="#ffffff"
           roughness={0.1}
@@ -33,7 +38,7 @@ export const Platform: React.FC = () => {
           ior={1.5}
         />
       </mesh>
-      <Instances geometry={studGeometry} limit={GRID_SIZE * GRID_SIZE}>
+      <Instances geometry={studGeometry} limit={gridSize * gridSize}>
         <meshPhysicalMaterial
           color="#ffffff"
           roughness={0.2}

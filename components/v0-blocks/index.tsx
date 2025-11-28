@@ -20,6 +20,7 @@ import { clearLocalStorage } from "@/lib/utils/local-storage"
 import type { SavedCreation } from "@/lib/types"
 import {
   type Brick,
+  getShapeIdForBrickDimensions,
   handleAddBrick,
   handleDeleteBrick,
   handleUpdateBrick,
@@ -42,6 +43,7 @@ export default function V0Blocks() {
   const [historyIndex, setHistoryIndex] = useState(0)
   const [width, setWidth] = useState(2)
   const [depth, setDepth] = useState(2)
+  const [baseSize, setBaseSize] = useState<number>(20)
   const [isPlaying, setIsPlaying] = useState(false)
   const [interactionMode, setInteractionMode] = useState<"build" | "move" | "erase">("build")
   const orbitControlsRef = useRef()
@@ -94,12 +96,19 @@ export default function V0Blocks() {
     setCurrentCreationName,
     setHistory,
     setHistoryIndex,
+    baseSize,
+    setBaseSize,
   })
 
   // Wrapper functions that call the imported event handlers with the current state
   const onAddBrick = useCallback(
     (brick: Brick) => {
-      handleAddBrick(brick, bricks, setBricks, history, historyIndex, setHistory, setHistoryIndex)
+      // Ensure shapeId is set
+      const brickWithShapeId: Brick = {
+        ...brick,
+        shapeId: brick.shapeId ?? getShapeIdForBrickDimensions(brick.width, brick.height),
+      }
+      handleAddBrick(brickWithShapeId, bricks, setBricks, history, historyIndex, setHistory, setHistoryIndex)
     },
     [bricks, history, historyIndex],
   )
@@ -176,19 +185,23 @@ export default function V0Blocks() {
   }, [isKvAvailable])
 
   const handleLoadCreation = useCallback((creation: SavedCreation) => {
-    // Load the creation
-    setBricks(creation.bricks)
+    // Normalize bricks to ensure shapeId is set
+    const normalisedBricks: Brick[] = creation.bricks.map((brick) => ({
+      ...brick,
+      shapeId: brick.shapeId ?? getShapeIdForBrickDimensions(brick.width, brick.height),
+    }))
 
-    // Update history
-    const newHistory = [[...creation.bricks]]
+    setBricks(normalisedBricks)
+
+    const newHistory = [[...normalisedBricks]]
     setHistory(newHistory)
     setHistoryIndex(0)
 
-    // Update current creation info
     setCurrentCreationId(creation.id)
     setCurrentCreationName(creation.name)
 
-    // Close the modal
+    setBaseSize(creation.baseSize ?? 20)
+
     setShowLoadModal(false)
   }, [])
 
@@ -210,6 +223,8 @@ export default function V0Blocks() {
     handleLoad,
     currentTheme,
     handleThemeChange,
+    baseSize,
+    setBaseSize,
   })
 
   return (
@@ -230,6 +245,7 @@ export default function V0Blocks() {
           onRedo={onRedo}
           isPlaying={isPlaying}
           interactionMode={interactionMode}
+          gridSize={baseSize}
         />
         <OrbitControls
           ref={orbitControlsRef}
@@ -247,7 +263,12 @@ export default function V0Blocks() {
       </Canvas>
       {!isPlaying && (
         <>
-          <ActionToolbar onModeChange={handleModeChange} currentMode={interactionMode} />
+          <ActionToolbar
+            onModeChange={handleModeChange}
+            currentMode={interactionMode}
+            baseSize={baseSize}
+            onBaseSizeChange={setBaseSize}
+          />
           <ColorSelector
             colors={currentColors}
             selectedColor={selectedColor}
@@ -291,6 +312,7 @@ export default function V0Blocks() {
         bricks={bricks}
         currentId={currentCreationId}
         currentName={currentCreationName}
+        baseSize={baseSize}
       />
 
       <LoadModal isOpen={showLoadModal} onClose={() => setShowLoadModal(false)} onLoad={handleLoadCreation} />

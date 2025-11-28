@@ -2,7 +2,6 @@
 
 import { useEffect } from "react"
 
-// Helper function to check if we're currently focused on an input element
 function isInputElement(): boolean {
   const activeElement = document.activeElement
   if (!activeElement) return false
@@ -31,6 +30,8 @@ interface KeyboardShortcutsProps {
   handleLoad: () => void
   currentTheme: string
   handleThemeChange: (theme: string) => void
+  baseSize: number
+  setBaseSize: (size: number | ((prev: number) => number)) => void
 }
 
 export function useKeyboardShortcuts({
@@ -50,13 +51,13 @@ export function useKeyboardShortcuts({
   handleLoad,
   currentTheme,
   handleThemeChange,
+  baseSize,
+  setBaseSize,
 }: KeyboardShortcutsProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Skip keyboard shortcuts when playing
       if (isPlaying) return
 
-      // Skip keyboard shortcuts when typing in an input field
       if (isInputElement()) return
 
       // Swap dimensions with S key
@@ -185,5 +186,7 @@ export function useKeyboardShortcuts({
     handleLoad,
     currentTheme,
     handleThemeChange,
+    baseSize,
+    setBaseSize,
   ])
 }
