@@ -99,9 +99,8 @@ export function useSceneInteraction({
   }, [interactionMode])
 
   const snapToGrid = (value: number, size: number) => {
-    const isOdd = size % 2 !== 0
-    const snappedValue = Math.round(value)
-    return isOdd ? snappedValue - 0.5 : snappedValue
+    // All bricks should snap to whole numbers for proper alignment
+    return Math.round(value)
   }
 
   const isValidPlacement = (position: [number, number, number], width: number, depth: number) => {

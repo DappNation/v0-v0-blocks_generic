@@ -111,8 +111,8 @@ export function MintBuildModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-[28px]">
         <DialogHeader>
-          <DialogTitle className="text-3xl font-bold">Mint This Build</DialogTitle>
-          <p className="text-sm text-gray-600">Review price and preview the final NFT before minting.</p>
+          <DialogTitle className="text-3xl font-bold text-white">Mint This Build</DialogTitle>
+          <p className="text-sm text-gray-300">Review price and preview the final NFT before minting.</p>
         </DialogHeader>
 
         {mintSuccess && (
@@ -131,37 +131,37 @@ export function MintBuildModal({
           {/* Left column: Build details and pricing */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold mb-2">Build Details</h3>
+              <h3 className="text-lg font-semibold mb-2 text-white">Build Details</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Name:</span>
-                  <span className="font-medium text-black">{buildName}</span>
+                  <span className="text-gray-300">Name:</span>
+                  <span className="font-medium text-white">{buildName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total BLOX Used:</span>
-                  <span className="font-medium text-black">{totalBloxMass}</span>
+                  <span className="text-gray-300">Total BLOX Used:</span>
+                  <span className="font-medium text-white">{totalBloxMass}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Estimated APY:</span>
-                  <span className="font-medium text-green-600">{estimatedApy}%</span>
+                  <span className="text-gray-300">Estimated APY:</span>
+                  <span className="font-medium text-green-400">{estimatedApy}%</span>
                 </div>
               </div>
             </div>
 
-            <div className="border-t pt-4">
-              <h3 className="text-lg font-semibold mb-2">Price Breakdown</h3>
+            <div className="border-t border-gray-700 pt-4">
+              <h3 className="text-lg font-semibold mb-2 text-white">Price Breakdown</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Estimated BLOX Locked:</span>
-                  <span className="font-medium text-black">{estimatedBloxCost} BLOX</span>
+                  <span className="text-gray-300">Estimated BLOX Locked:</span>
+                  <span className="font-medium text-white">{estimatedBloxCost} BLOX</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Estimated License Fee:</span>
-                  <span className="font-medium text-black">{estimatedLicenseFeeEth.toFixed(4)} ETH</span>
+                  <span className="text-gray-300">Estimated License Fee:</span>
+                  <span className="font-medium text-white">{estimatedLicenseFeeEth.toFixed(4)} ETH</span>
                 </div>
-                <div className="flex justify-between border-t pt-2 font-bold">
-                  <span className="text-black">Total Cost:</span>
-                  <span className="text-black">
+                <div className="flex justify-between border-t border-gray-700 pt-2 font-bold">
+                  <span className="text-white">Total Cost:</span>
+                  <span className="text-white">
                     {estimatedBloxCost} BLOX + {estimatedLicenseFeeEth.toFixed(4)} ETH
                   </span>
                 </div>
@@ -179,24 +179,24 @@ export function MintBuildModal({
           {/* Right column: Preview and tools */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold mb-2">3D Preview</h3>
+              <h3 className="text-lg font-semibold mb-2 text-white">3D Preview</h3>
               <MintPreviewCanvas
                 bricks={bricks}
                 gridWidth={gridWidth}
                 gridDepth={gridDepth}
                 onScreenshotCaptured={handleScreenshotCaptured}
               />
-              <p className="text-xs text-gray-500 mt-2">💡 Click and drag to rotate, scroll to zoom</p>
+              <p className="text-xs text-gray-400 mt-2">💡 Click and drag to rotate, scroll to zoom</p>
             </div>
 
             {screenshot && (
               <div>
-                <h3 className="text-sm font-semibold mb-2">Captured Screenshot</h3>
+                <h3 className="text-sm font-semibold mb-2 text-white">Captured Screenshot</h3>
                 <div className="relative">
                   <img
                     src={screenshot || "/placeholder.svg"}
                     alt="Screenshot"
-                    className="w-full h-32 object-cover rounded-lg border"
+                    className="w-full h-32 object-cover rounded-lg border border-gray-700"
                   />
                   <a
                     href={screenshot}
@@ -211,10 +211,10 @@ export function MintBuildModal({
           </div>
         </div>
 
-        <div className="mt-6 border-t pt-4">
+        <div className="mt-6 border-t border-gray-700 pt-4">
           <button
             onClick={() => setShowJsonData(!showJsonData)}
-            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-black transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
           >
             {showJsonData ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             Build JSON Data

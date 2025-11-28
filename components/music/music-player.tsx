@@ -18,7 +18,6 @@ export function MusicPlayer() {
     if (!audio) return
 
     const handleTrackEnd = () => {
-      // Move to next track
       setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length)
     }
 
@@ -75,31 +74,35 @@ export function MusicPlayer() {
   }
 
   return (
-    <div className="fixed left-4 top-20 z-30 bg-[hsl(var(--ethblox-surface))] backdrop-blur-md border border-[hsl(var(--ethblox-border))] rounded-2xl shadow-lg p-4 w-64">
+    <div className="flex items-center gap-2">
       <audio ref={audioRef} preload="auto" />
 
-      {/* Track info */}
-      <div className="mb-3">
-        <div className="text-sm font-medium text-[hsl(var(--ethblox-text-primary))] truncate">{currentTrack.title}</div>
-        <div className="text-xs text-[hsl(var(--ethblox-text-secondary))] truncate">{currentTrack.artist}</div>
+      {/* Track info - compact */}
+      <div className="flex flex-col min-w-0">
+        <div className="text-[10px] font-medium text-[hsl(var(--ethblox-text-primary))] truncate max-w-[120px]">
+          {currentTrack.title}
+        </div>
+        <div className="text-[9px] text-[hsl(var(--ethblox-text-secondary))] truncate max-w-[120px]">
+          {currentTrack.artist}
+        </div>
       </div>
 
-      {/* Controls */}
-      <div className="flex items-center gap-2">
+      {/* Controls - compact */}
+      <div className="flex items-center gap-1">
         <button
           onClick={togglePlay}
-          className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-black/30 text-white hover:bg-black/50"
+          className="w-7 h-7 rounded-full flex items-center justify-center transition-colors bg-black/30 text-white hover:bg-black/50"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
-          {isPlaying ? <Pause className="w-4 h-4 stroke-[1.5]" /> : <Play className="w-4 h-4 stroke-[1.5] ml-0.5" />}
+          {isPlaying ? <Pause className="w-3 h-3 stroke-[1.5]" /> : <Play className="w-3 h-3 stroke-[1.5] ml-0.5" />}
         </button>
 
         <button
           onClick={toggleMute}
-          className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-black/30 text-white hover:bg-black/50"
+          className="w-7 h-7 rounded-full flex items-center justify-center transition-colors bg-black/30 text-white hover:bg-black/50"
           aria-label={isMuted ? "Unmute" : "Mute"}
         >
-          {isMuted ? <VolumeX className="w-4 h-4 stroke-[1.5]" /> : <Volume2 className="w-4 h-4 stroke-[1.5]" />}
+          {isMuted ? <VolumeX className="w-3 h-3 stroke-[1.5]" /> : <Volume2 className="w-3 h-3 stroke-[1.5]" />}
         </button>
       </div>
     </div>

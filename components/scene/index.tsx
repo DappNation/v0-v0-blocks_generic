@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { Environment, SoftShadows } from "@react-three/drei"
+import { SoftShadows } from "@react-three/drei"
 import type { SceneProps } from "./types"
 import { LargePlane } from "../large-plane"
 import { Platform } from "../platform"
@@ -10,6 +10,7 @@ import { EraseMode } from "./erase-mode"
 import { LightingSetup } from "./lighting-setup"
 import { useSceneInteraction } from "./use-scene-interaction"
 import { Block } from "../block"
+import { SpaceBackground } from "./space-background"
 
 export const Scene: React.FC<SceneProps> = ({
   bricks,
@@ -51,6 +52,7 @@ export const Scene: React.FC<SceneProps> = ({
 
   return (
     <>
+      <SpaceBackground />
       <SoftShadows size={25} samples={16} focus={0.5} />
       <LargePlane />
       <Platform gridWidth={gridWidth} gridDepth={gridDepth} />
@@ -95,7 +97,6 @@ export const Scene: React.FC<SceneProps> = ({
       </mesh>
 
       <LightingSetup />
-      <Environment preset="warehouse" background />
     </>
   )
 }
