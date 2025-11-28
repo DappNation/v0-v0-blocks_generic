@@ -11,6 +11,8 @@ interface DimensionControlsProps {
   onWidthChange: (width: number) => void
   onHeightChange: (height: number) => void
   isMobile: boolean
+  baseWidth: number
+  baseDepth: number
 }
 
 export const DimensionControls: React.FC<DimensionControlsProps> = ({
@@ -19,11 +21,12 @@ export const DimensionControls: React.FC<DimensionControlsProps> = ({
   onWidthChange,
   onHeightChange,
   isMobile,
+  baseWidth,
+  baseDepth,
 }) => {
-  // Create an array of options for the dropdowns (1-20)
-  const dimensionOptions = Array.from({ length: 20 }, (_, i) => i + 1)
+  const widthOptions = Array.from({ length: baseWidth }, (_, i) => i + 1)
+  const heightOptions = Array.from({ length: baseDepth }, (_, i) => i + 1)
 
-  // Function to swap width and height
   const handleSwapDimensions = () => {
     onWidthChange(height)
     onHeightChange(width)
@@ -44,7 +47,7 @@ export const DimensionControls: React.FC<DimensionControlsProps> = ({
             alignOffset={-5}
             sideOffset={5}
           >
-            {dimensionOptions.map((option) => (
+            {widthOptions.map((option) => (
               <DropdownMenuItem key={option} onSelect={() => onWidthChange(option)}>
                 {option}
               </DropdownMenuItem>
@@ -72,7 +75,7 @@ export const DimensionControls: React.FC<DimensionControlsProps> = ({
             alignOffset={-5}
             sideOffset={5}
           >
-            {dimensionOptions.map((option) => (
+            {heightOptions.map((option) => (
               <DropdownMenuItem key={option} onSelect={() => onHeightChange(option)}>
                 {option}
               </DropdownMenuItem>
@@ -98,7 +101,7 @@ export const DimensionControls: React.FC<DimensionControlsProps> = ({
             alignOffset={-5}
             sideOffset={5}
           >
-            {dimensionOptions.map((option) => (
+            {widthOptions.map((option) => (
               <DropdownMenuItem key={option} onSelect={() => onWidthChange(option)}>
                 {option}
               </DropdownMenuItem>
@@ -130,7 +133,7 @@ export const DimensionControls: React.FC<DimensionControlsProps> = ({
             alignOffset={-5}
             sideOffset={5}
           >
-            {dimensionOptions.map((option) => (
+            {heightOptions.map((option) => (
               <DropdownMenuItem key={option} onSelect={() => onHeightChange(option)}>
                 {option}
               </DropdownMenuItem>

@@ -32,10 +32,12 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   currentTheme,
   onThemeChange,
   bricksCount,
+  baseWidth,
+  baseDepth,
+  totalBlox,
 }) => {
   const [isMobile, setIsMobile] = useState(false)
 
-  // Handle client-side mounting and detect mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
@@ -48,15 +50,19 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
 
   return (
     <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-4 z-10">
-      {/* Main Controls Panel - Very rounded with smaller padding */}
+      {totalBlox > 0 && (
+        <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))] mx-auto">
+          <span className="text-sm font-medium">BLOX: {totalBlox}</span>
+        </div>
+      )}
+
+      {/* Main Controls Panel */}
       <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-6 py-3 rounded-[28px] shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))]">
         <div className="flex items-center gap-3">
-          {/* History Controls */}
           <HistoryControls onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} isMobile={isMobile} />
 
           <div className="w-px h-6 bg-gray-600" />
 
-          {/* Color Selector */}
           <ColorPicker
             colors={colors}
             selectedColor={selectedColor}
@@ -68,18 +74,18 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
 
           <div className="w-px h-6 bg-gray-600" />
 
-          {/* Dimension Controls */}
           <DimensionControls
             width={width}
             height={depth}
             onWidthChange={onWidthChange}
             onHeightChange={onDepthChange}
             isMobile={isMobile}
+            baseWidth={baseWidth}
+            baseDepth={baseDepth}
           />
 
           <div className="w-px h-6 bg-gray-600" />
 
-          {/* Desktop: Save/Load Controls */}
           {!isMobile && (
             <>
               <FileControls onSave={onSave} onLoad={onLoad} isMobile={isMobile} />
@@ -87,7 +93,6 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
             </>
           )}
 
-          {/* Desktop: Action Buttons */}
           {!isMobile && (
             <ActionControls
               onPlayToggle={onPlayToggle}
@@ -98,7 +103,6 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
             />
           )}
 
-          {/* Mobile: Menu Button */}
           {isMobile && (
             <MobileMenu
               onPlayToggle={onPlayToggle}

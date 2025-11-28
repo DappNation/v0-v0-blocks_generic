@@ -31,36 +31,44 @@ import {
 } from "./events"
 import { IntegrationCheckDialog } from "../integration-check-dialog"
 import { isKvConfigured } from "@/lib/utils/check-kv-integration"
+import { useMetaMask } from "@/hooks/use-metamask"
+
+function calculateTotalBlox(bricks: Brick[]): number {
+  return bricks.reduce((total, brick) => {
+    const mass = brick.width * brick.height
+    return total + mass
+  }, 0)
+}
 
 export default function V0Blocks() {
-  // Theme and colors
+  const { account, isConnected } = useMetaMask()
+
   const { currentTheme, currentColors, selectedColor, setSelectedColor, handleSelectColor, handleThemeChange } =
     useColorTheme()
 
-  // State
   const [bricks, setBricks] = useState<Brick[]>([])
   const [history, setHistory] = useState<Brick[][]>([[]])
   const [historyIndex, setHistoryIndex] = useState(0)
   const [width, setWidth] = useState(2)
   const [depth, setDepth] = useState(2)
-  const [baseSize, setBaseSize] = useState<number>(20)
+  const [baseWidth, setBaseWidth] = useState<number>(20)
+  const [baseDepth, setBaseDepth] = useState<number>(20)
   const [isPlaying, setIsPlaying] = useState(false)
   const [interactionMode, setInteractionMode] = useState<"build" | "move" | "erase">("build")
   const orbitControlsRef = useRef()
 
-  // Modal state
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showLoadModal, setShowLoadModal] = useState(false)
   const [showClearModal, setShowClearModal] = useState(false)
   const [currentCreationId, setCurrentCreationId] = useState<string | undefined>()
   const [currentCreationName, setCurrentCreationName] = useState<string | undefined>()
 
-  // Add these state variables in the V0Blocks component after the other modal states
   const [showIntegrationDialog, setShowIntegrationDialog] = useState(false)
   const [integrationDialogType, setIntegrationDialogType] = useState<"save" | "load">("save")
   const [isKvAvailable, setIsKvAvailable] = useState(true)
 
-  // Add this effect to check KV availability when the component mounts
+  const totalBlox = calculateTotalBlox(bricks)
+
   useEffect(() => {
     const checkKvAvailability = async () => {
       try {
@@ -75,10 +83,17 @@ export default function V0Blocks() {
     checkKvAvailability()
   }, [])
 
-  // Set up touch handling
+  useEffect(() => {
+    if (width > baseWidth) {
+      setWidth(baseWidth)
+    }
+    if (depth > baseDepth) {
+      setDepth(baseDepth)
+    }
+  }, [baseWidth, baseDepth, width, depth])
+
   useTouchHandling()
 
-  // Set up localStorage persistence
   useLocalStorage({
     bricks,
     width,
@@ -96,14 +111,14 @@ export default function V0Blocks() {
     setCurrentCreationName,
     setHistory,
     setHistoryIndex,
-    baseSize,
-    setBaseSize,
+    baseWidth,
+    baseDepth,
+    setBaseWidth,
+    setBaseDepth,
   })
 
-  // Wrapper functions that call the imported event handlers with the current state
   const onAddBrick = useCallback(
     (brick: Brick) => {
-      // Ensure shapeId is set
       const brickWithShapeId: Brick = {
         ...brick,
         shapeId: brick.shapeId ?? getShapeIdForBrickDimensions(brick.width, brick.height),
@@ -140,12 +155,9 @@ export default function V0Blocks() {
   const onClearSet = useCallback(() => {
     console.log("Clear set triggered")
     handleClearSet(setBricks, setHistory, setHistoryIndex)
-    // Clear current creation info when clearing the set
     setCurrentCreationId(undefined)
     setCurrentCreationName(undefined)
-    // Clear localStorage
     clearLocalStorage()
-    // Close the modal
     setShowClearModal(false)
   }, [])
 
@@ -164,7 +176,6 @@ export default function V0Blocks() {
     setInteractionMode(mode)
   }, [])
 
-  // Save/Load handlers
   const handleSave = useCallback(() => {
     if (!isKvAvailable) {
       setIntegrationDialogType("save")
@@ -174,7 +185,6 @@ export default function V0Blocks() {
     }
   }, [isKvAvailable])
 
-  // Replace the handleLoad function with this
   const handleLoad = useCallback(() => {
     if (!isKvAvailable) {
       setIntegrationDialogType("load")
@@ -185,7 +195,6 @@ export default function V0Blocks() {
   }, [isKvAvailable])
 
   const handleLoadCreation = useCallback((creation: SavedCreation) => {
-    // Normalize bricks to ensure shapeId is set
     const normalisedBricks: Brick[] = creation.bricks.map((brick) => ({
       ...brick,
       shapeId: brick.shapeId ?? getShapeIdForBrickDimensions(brick.width, brick.height),
@@ -200,12 +209,12 @@ export default function V0Blocks() {
     setCurrentCreationId(creation.id)
     setCurrentCreationName(creation.name)
 
-    setBaseSize(creation.baseSize ?? 20)
+    setBaseWidth(creation.baseWidth ?? creation.baseSize ?? 20)
+    setBaseDepth(creation.baseDepth ?? creation.baseSize ?? 20)
 
     setShowLoadModal(false)
   }, [])
 
-  // Set up keyboard shortcuts
   useKeyboardShortcuts({
     isPlaying,
     width,
@@ -223,14 +232,16 @@ export default function V0Blocks() {
     handleLoad,
     currentTheme,
     handleThemeChange,
-    baseSize,
-    setBaseSize,
+    baseWidth,
+    baseDepth,
+    setBaseWidth,
+    setBaseDepth,
   })
 
   return (
     <div
       className="fixed inset-0 w-full h-full bg-[hsl(var(--ethblox-warehouse))] font-sans overflow-hidden"
-      onContextMenu={(e) => e.preventDefault()} // Prevent context menu on right-click
+      onContextMenu={(e) => e.preventDefault()}
     >
       <SiteHeader />
       <Canvas shadows camera={{ position: [0, 15, 15], fov: 50 }}>
@@ -245,15 +256,16 @@ export default function V0Blocks() {
           onRedo={onRedo}
           isPlaying={isPlaying}
           interactionMode={interactionMode}
-          gridSize={baseSize}
+          gridWidth={baseWidth}
+          gridDepth={baseDepth}
         />
         <OrbitControls
           ref={orbitControlsRef}
           target={[0, 0, 0]}
           minPolarAngle={0}
           maxPolarAngle={Math.PI / 2}
-          minDistance={10} // Minimum zoom distance
-          maxDistance={40} // Maximum zoom distance
+          minDistance={10}
+          maxDistance={40}
           autoRotate={isPlaying}
           autoRotateSpeed={1}
           enableZoom={!isPlaying && interactionMode === "move"}
@@ -266,8 +278,10 @@ export default function V0Blocks() {
           <ActionToolbar
             onModeChange={handleModeChange}
             currentMode={interactionMode}
-            baseSize={baseSize}
-            onBaseSizeChange={setBaseSize}
+            baseWidth={baseWidth}
+            baseDepth={baseDepth}
+            onBaseWidthChange={setBaseWidth}
+            onBaseDepthChange={setBaseDepth}
           />
           <ColorSelector
             colors={currentColors}
@@ -291,6 +305,9 @@ export default function V0Blocks() {
             currentTheme={currentTheme}
             onThemeChange={handleThemeChange}
             bricksCount={bricks.length}
+            baseWidth={baseWidth}
+            baseDepth={baseDepth}
+            totalBlox={totalBlox}
           />
           <AudioPlayer />
         </>
@@ -312,7 +329,10 @@ export default function V0Blocks() {
         bricks={bricks}
         currentId={currentCreationId}
         currentName={currentCreationName}
-        baseSize={baseSize}
+        baseWidth={baseWidth}
+        baseDepth={baseDepth}
+        walletAccount={account}
+        isWalletConnected={isConnected}
       />
 
       <LoadModal isOpen={showLoadModal} onClose={() => setShowLoadModal(false)} onLoad={handleLoadCreation} />

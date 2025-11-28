@@ -22,7 +22,8 @@ export const Scene: React.FC<SceneProps> = ({
   onRedo,
   isPlaying,
   interactionMode = "build",
-  gridSize, // Accept gridSize as prop
+  gridWidth,
+  gridDepth,
 }) => {
   const {
     currentBrickPosition,
@@ -44,14 +45,15 @@ export const Scene: React.FC<SceneProps> = ({
     onDeleteBrick,
     isPlaying,
     interactionMode,
-    gridSize, // Pass gridSize to useSceneInteraction
+    gridWidth,
+    gridDepth,
   })
 
   return (
     <>
       <SoftShadows size={25} samples={16} focus={0.5} />
       <LargePlane />
-      <Platform gridSize={gridSize} />
+      <Platform gridWidth={gridWidth} gridDepth={gridDepth} />
 
       {bricks.map((brick, index) => (
         <Block
@@ -88,7 +90,7 @@ export const Scene: React.FC<SceneProps> = ({
         onPointerUp={handleTouchEnd}
         onPointerLeave={handleTouchEnd}
       >
-        <planeGeometry args={[gridSize, gridSize]} />
+        <planeGeometry args={[gridWidth, gridDepth]} />
         <meshBasicMaterial visible={false} />
       </mesh>
 

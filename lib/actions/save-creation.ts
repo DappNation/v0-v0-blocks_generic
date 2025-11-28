@@ -6,8 +6,18 @@ import { revalidatePath } from "next/cache"
 import type { Brick } from "@/components/v0-blocks/events"
 import type { SavedCreation } from "../types"
 
-export async function saveCreation(name: string, bricks: Brick[], baseSize: number, walletAddress?: string) {
+export async function saveCreation(
+  name: string,
+  bricks: Brick[],
+  baseWidth: number,
+  baseDepth: number,
+  walletAddress: string,
+) {
   try {
+    if (!walletAddress || walletAddress.trim() === "") {
+      return { success: false, message: "Wallet not connected. Please connect your wallet to save." }
+    }
+
     const id = nanoid(10)
     const timestamp = Date.now()
 
@@ -17,14 +27,14 @@ export async function saveCreation(name: string, bricks: Brick[], baseSize: numb
       bricks,
       createdAt: timestamp,
       updatedAt: timestamp,
-      baseSize, // Include baseSize in saved creation
+      baseWidth,
+      baseDepth,
+      baseSize: baseWidth, // Keep for backward compatibility
     }
 
     await kv.set(`creation:${id}`, JSON.stringify(creation))
 
-    if (walletAddress) {
-      await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
-    }
+    await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
 
     await kv.zadd("creations", { score: timestamp, member: id })
 

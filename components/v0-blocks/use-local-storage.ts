@@ -13,7 +13,8 @@ interface UseLocalStorageProps {
   currentTheme: ColorTheme
   currentCreationId?: string
   currentCreationName?: string
-  baseSize: number
+  baseWidth: number
+  baseDepth: number
   setBricks: (bricks: Brick[]) => void
   setWidth: (width: number) => void
   setDepth: (depth: number) => void
@@ -23,7 +24,8 @@ interface UseLocalStorageProps {
   setCurrentCreationName: (name?: string) => void
   setHistory: (history: Brick[][]) => void
   setHistoryIndex: (index: number) => void
-  setBaseSize: (size: number) => void
+  setBaseWidth: (width: number) => void
+  setBaseDepth: (depth: number) => void
 }
 
 export function useLocalStorage({
@@ -34,7 +36,8 @@ export function useLocalStorage({
   currentTheme,
   currentCreationId,
   currentCreationName,
-  baseSize,
+  baseWidth,
+  baseDepth,
   setBricks,
   setWidth,
   setDepth,
@@ -44,7 +47,8 @@ export function useLocalStorage({
   setCurrentCreationName,
   setHistory,
   setHistoryIndex,
-  setBaseSize,
+  setBaseWidth,
+  setBaseDepth,
 }: UseLocalStorageProps) {
   const hasLocalStorage = useRef<boolean>(false)
   const isInitialLoad = useRef<boolean>(true)
@@ -69,8 +73,15 @@ export function useLocalStorage({
             setHistoryIndex(0)
             setCurrentCreationId(creation.id)
             setCurrentCreationName(creation.name)
-            if (creation.baseSize) {
-              setBaseSize(creation.baseSize)
+            if (creation.baseWidth) {
+              setBaseWidth(creation.baseWidth)
+            } else if (creation.baseSize) {
+              setBaseWidth(creation.baseSize)
+            }
+            if (creation.baseDepth) {
+              setBaseDepth(creation.baseDepth)
+            } else if (creation.baseSize) {
+              setBaseDepth(creation.baseSize)
             }
 
             localStorage.removeItem("ethblox-load-creation")
@@ -104,8 +115,15 @@ export function useLocalStorage({
             setCurrentCreationName(savedState.creationName)
           }
 
-          if (savedState.baseSize) {
-            setBaseSize(savedState.baseSize)
+          if (savedState.baseWidth) {
+            setBaseWidth(savedState.baseWidth)
+          } else if (savedState.baseSize) {
+            setBaseWidth(savedState.baseSize)
+          }
+          if (savedState.baseDepth) {
+            setBaseDepth(savedState.baseDepth)
+          } else if (savedState.baseSize) {
+            setBaseDepth(savedState.baseSize)
           }
 
           setHistory([[...savedState.bricks]])
@@ -125,7 +143,8 @@ export function useLocalStorage({
     setCurrentCreationName,
     setHistory,
     setHistoryIndex,
-    setBaseSize,
+    setBaseWidth,
+    setBaseDepth,
   ])
 
   useEffect(() => {
@@ -144,7 +163,9 @@ export function useLocalStorage({
         currentTheme,
         creationId: currentCreationId,
         creationName: currentCreationName,
-        baseSize,
+        baseWidth,
+        baseDepth,
+        baseSize: baseWidth, // Keep for backward compatibility
       })
     }, 500)
 
@@ -153,5 +174,5 @@ export function useLocalStorage({
         clearTimeout(saveTimeoutRef.current)
       }
     }
-  }, [bricks, width, depth, selectedColor, currentTheme, currentCreationId, currentCreationName, baseSize])
+  }, [bricks, width, depth, selectedColor, currentTheme, currentCreationId, currentCreationName, baseWidth, baseDepth])
 }

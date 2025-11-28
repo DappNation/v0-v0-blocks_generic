@@ -30,8 +30,10 @@ interface KeyboardShortcutsProps {
   handleLoad: () => void
   currentTheme: string
   handleThemeChange: (theme: string) => void
-  baseSize: number
-  setBaseSize: (size: number | ((prev: number) => number)) => void
+  baseWidth: number
+  baseDepth: number
+  setBaseWidth: (width: number | ((prev: number) => number)) => void
+  setBaseDepth: (depth: number | ((prev: number) => number)) => void
 }
 
 export function useKeyboardShortcuts({
@@ -51,8 +53,10 @@ export function useKeyboardShortcuts({
   handleLoad,
   currentTheme,
   handleThemeChange,
-  baseSize,
-  setBaseSize,
+  baseWidth,
+  baseDepth,
+  setBaseWidth,
+  setBaseDepth,
 }: KeyboardShortcutsProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -94,9 +98,9 @@ export function useKeyboardShortcuts({
         setWidth((prevWidth) => Math.max(1, prevWidth - 1))
       }
 
-      // Increase width with ] key
+      // Increase width with ] key - clamp to baseWidth
       if (event.key === "]" && !event.shiftKey) {
-        setWidth((prevWidth) => Math.min(20, prevWidth + 1))
+        setWidth((prevWidth) => Math.min(baseWidth, prevWidth + 1))
       }
 
       // Decrease depth with ; key
@@ -104,9 +108,9 @@ export function useKeyboardShortcuts({
         setDepth((prevDepth) => Math.max(1, prevDepth - 1))
       }
 
-      // Increase depth with ' key
+      // Increase depth with ' key - clamp to baseDepth
       if (event.key === "'") {
-        setDepth((prevDepth) => Math.min(20, prevDepth + 1))
+        setDepth((prevDepth) => Math.min(baseDepth, prevDepth + 1))
       }
 
       // Color selection with number keys 1-8
@@ -186,7 +190,9 @@ export function useKeyboardShortcuts({
     handleLoad,
     currentTheme,
     handleThemeChange,
-    baseSize,
-    setBaseSize,
+    baseWidth,
+    baseDepth,
+    setBaseWidth,
+    setBaseDepth,
   ])
 }

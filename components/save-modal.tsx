@@ -8,7 +8,6 @@ import { updateCreation } from "@/lib/actions/update-creation"
 import type { Brick } from "@/components/v0-blocks/events"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useMetaMask } from "@/hooks/use-metamask"
 
 interface SaveModalProps {
   isOpen: boolean
@@ -16,7 +15,10 @@ interface SaveModalProps {
   bricks: Brick[]
   currentId?: string
   currentName?: string
-  baseSize: number
+  baseWidth: number
+  baseDepth: number
+  walletAccount: string | null
+  isWalletConnected: boolean
 }
 
 export const SaveModal: React.FC<SaveModalProps> = ({
@@ -25,20 +27,27 @@ export const SaveModal: React.FC<SaveModalProps> = ({
   bricks,
   currentId,
   currentName = "",
-  baseSize,
+  baseWidth,
+  baseDepth,
+  walletAccount,
+  isWalletConnected,
 }) => {
   const [name, setName] = useState(currentName)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const { account } = useMetaMask()
-
   useEffect(() => {
     setName(currentName || "")
   }, [currentName])
 
   const handleSave = async () => {
+    if (!isWalletConnected || !walletAccount) {
+      setMessage("Please connect your wallet to save this build")
+      setIsSuccess(false)
+      return
+    }
+
     if (!name.trim()) {
       setMessage("Please enter a name for your creation")
       setIsSuccess(false)
@@ -50,8 +59,8 @@ export const SaveModal: React.FC<SaveModalProps> = ({
 
     try {
       const result = currentId
-        ? await updateCreation(currentId, name, bricks, baseSize, account || undefined)
-        : await saveCreation(name, bricks, baseSize, account || undefined)
+        ? await updateCreation(currentId, name, bricks, baseWidth, baseDepth, walletAccount)
+        : await saveCreation(name, bricks, baseWidth, baseDepth, walletAccount)
 
       setIsSuccess(result.success)
       setMessage(result.message || "")
@@ -75,6 +84,12 @@ export const SaveModal: React.FC<SaveModalProps> = ({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">{currentId ? "Update Creation" : "Save Creation"}</DialogTitle>
         </DialogHeader>
+
+        {!isWalletConnected && (
+          <div className="mb-4 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
+            <p className="text-sm text-yellow-800">⚠️ Connect your wallet to save this build</p>
+          </div>
+        )}
 
         <div className="mb-4">
           <label htmlFor="creation-name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -105,7 +120,7 @@ export const SaveModal: React.FC<SaveModalProps> = ({
             onClick={handleSave}
             variant="default"
             className="rounded-full bg-black hover:bg-gray-800"
-            disabled={isSaving}
+            disabled={isSaving || !isWalletConnected || !walletAccount}
           >
             {isSaving ? "Saving..." : currentId ? "Update" : "Save"}
           </Button>

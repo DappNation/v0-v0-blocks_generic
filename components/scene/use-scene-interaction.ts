@@ -15,7 +15,8 @@ interface UseSceneInteractionProps {
   onDeleteBrick?: (index: number) => void
   isPlaying: boolean
   interactionMode: "build" | "move" | "erase"
-  gridSize: number // Added gridSize prop for dynamic grid boundaries
+  gridWidth: number // Added gridWidth prop for dynamic grid boundaries
+  gridDepth: number // Added gridDepth prop for dynamic grid boundaries
 }
 
 export function useSceneInteraction({
@@ -27,7 +28,8 @@ export function useSceneInteraction({
   onDeleteBrick,
   isPlaying,
   interactionMode,
-  gridSize, // Accept gridSize parameter
+  gridWidth, // Accept gridWidth parameter
+  gridDepth, // Accept gridDepth parameter
 }: UseSceneInteractionProps) {
   const [currentBrickPosition, setCurrentBrickPosition] = useState<[number, number, number]>([
     0,
@@ -109,7 +111,7 @@ export function useSceneInteraction({
     const top = Math.floor(z - depth / 2)
     const bottom = Math.ceil(z + depth / 2)
 
-    if (left < -gridSize / 2 || right > gridSize / 2 || top < -gridSize / 2 || bottom > gridSize / 2) {
+    if (left < -gridWidth / 2 || right > gridWidth / 2 || top < -gridDepth / 2 || bottom > gridDepth / 2) {
       return false
     }
 

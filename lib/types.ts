@@ -36,6 +36,8 @@ export type SavedCreation = {
   createdAt: number
   updatedAt: number
   baseSize?: number // Grid size for this build (optional for backwards compatibility)
+  baseWidth?: number // New: separate width for rectangular bases
+  baseDepth?: number // New: separate depth for rectangular bases
 }
 
 // Helper to convert Brick[] to BloxUnit[]

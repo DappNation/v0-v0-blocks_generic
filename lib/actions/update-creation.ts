@@ -9,10 +9,15 @@ export async function updateCreation(
   id: string,
   name: string,
   bricks: Brick[],
-  baseSize: number,
-  walletAddress?: string,
+  baseWidth: number,
+  baseDepth: number,
+  walletAddress: string,
 ) {
   try {
+    if (!walletAddress || walletAddress.trim() === "") {
+      return { success: false, message: "Wallet not connected. Please connect your wallet to update." }
+    }
+
     const existingCreationStr = await kv.get(`creation:${id}`)
 
     if (!existingCreationStr) {
@@ -29,14 +34,14 @@ export async function updateCreation(
       name,
       bricks,
       updatedAt: timestamp,
-      baseSize, // Update baseSize when saving over existing creation
+      baseWidth,
+      baseDepth,
+      baseSize: baseWidth, // Keep for backward compatibility
     }
 
     await kv.set(`creation:${id}`, JSON.stringify(updatedCreation))
 
-    if (walletAddress) {
-      await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
-    }
+    await kv.zadd(`user:${walletAddress}:creations`, { score: timestamp, member: id })
 
     await kv.zadd("creations", { score: timestamp, member: id })
 

@@ -8,15 +8,19 @@ import { SimpleTooltip } from "./simple-tooltip"
 interface ActionToolbarProps {
   onModeChange: (mode: "build" | "move" | "erase") => void
   currentMode: "build" | "move" | "erase"
-  baseSize: number
-  onBaseSizeChange: (value: number) => void
+  baseWidth: number
+  baseDepth: number
+  onBaseWidthChange: (value: number) => void
+  onBaseDepthChange: (value: number) => void
 }
 
 export const ActionToolbar: React.FC<ActionToolbarProps> = ({
   onModeChange,
   currentMode,
-  baseSize,
-  onBaseSizeChange,
+  baseWidth,
+  baseDepth,
+  onBaseWidthChange,
+  onBaseDepthChange,
 }) => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -41,18 +45,45 @@ export const ActionToolbar: React.FC<ActionToolbarProps> = ({
     )
   }
 
+  const handleWidthChange = (value: number) => {
+    const clamped = Math.max(1, Math.min(20, value))
+    onBaseWidthChange(clamped)
+  }
+
+  const handleDepthChange = (value: number) => {
+    const clamped = Math.max(1, Math.min(20, value))
+    onBaseDepthChange(clamped)
+  }
+
   return (
     <div className="fixed top-1/2 -translate-y-1/2 left-4 flex flex-col gap-3 z-20">
       <div className="bg-black/30 rounded-lg p-2 backdrop-blur-sm">
-        <label className="text-xs text-white/80 block mb-1">Base Size</label>
-        <input
-          type="number"
-          min={4}
-          max={40}
-          value={baseSize}
-          onChange={(e) => onBaseSizeChange(Number(e.target.value) || 4)}
-          className="w-16 rounded border border-white/20 bg-black/50 px-2 py-1 text-xs text-white text-center"
-        />
+        <label className="text-xs text-white/80 block mb-2 text-center">Base Size</label>
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center">
+            <label className="text-[10px] text-white/60 mb-1">W</label>
+            <input
+              type="number"
+              min={1}
+              max={20}
+              value={baseWidth}
+              onChange={(e) => handleWidthChange(Number(e.target.value) || 1)}
+              className="w-12 rounded border border-white/20 bg-black/50 px-2 py-1 text-xs text-white text-center"
+            />
+          </div>
+          <span className="text-white/40 text-xs">×</span>
+          <div className="flex flex-col items-center">
+            <label className="text-[10px] text-white/60 mb-1">D</label>
+            <input
+              type="number"
+              min={1}
+              max={20}
+              value={baseDepth}
+              onChange={(e) => handleDepthChange(Number(e.target.value) || 1)}
+              className="w-12 rounded border border-white/20 bg-black/50 px-2 py-1 text-xs text-white text-center"
+            />
+          </div>
+        </div>
       </div>
 
       <MaybeTooltip text="Build (b)">
