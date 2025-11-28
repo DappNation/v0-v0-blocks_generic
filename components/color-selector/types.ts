@@ -29,6 +29,7 @@ export interface ColorSelectorProps {
   onBaseDepthChange: (value: number) => void
   interactionMode: "build" | "move" | "erase"
   onModeChange: (mode: "build" | "move" | "erase") => void
+  onMintClick?: () => void // Add onMintClick handler for minting UI
 }
 
 export type ColorTheme = "default" | "muted" | "monochrome"

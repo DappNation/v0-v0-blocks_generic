@@ -43,6 +43,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   onBaseDepthChange,
   interactionMode,
   onModeChange,
+  onMintClick, // Add onMintClick prop
 }) => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -60,8 +61,19 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
     <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-4 z-10">
       {totalBlox > 0 && (
         <div className="flex items-center justify-center mx-auto">
-          <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))]">
+          <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))] flex items-center gap-3">
             <span className="text-sm font-medium">BLOX: {totalBlox}</span>
+            {onMintClick && (
+              <>
+                <div className="w-px h-4 bg-gray-600" />
+                <button
+                  onClick={onMintClick}
+                  className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold text-xs rounded-full transition-all hover:shadow-md"
+                >
+                  ⚡ Mint Now
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

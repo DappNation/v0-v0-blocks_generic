@@ -32,6 +32,7 @@ import { IntegrationCheckDialog } from "../integration-check-dialog"
 import { isKvConfigured } from "@/lib/utils/check-kv-integration"
 import { useMetaMaskContext } from "@/contexts/metamask-context"
 import { EthbloxLoader } from "../ethblox-loader"
+import { MintBuildModal } from "../mint/mint-build-modal"
 
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
@@ -98,9 +99,20 @@ export default function V0Blocks() {
   const [integrationDialogType, setIntegrationDialogType] = useState<"save" | "load">("save")
   const [isKvAvailable, setIsKvAvailable] = useState(true)
 
+  const [showMintModal, setShowMintModal] = useState(false)
+
   const totalBlox = calculateTotalBlox(bricks)
 
   const { minWidth: minBaseWidth, minDepth: minBaseDepth } = calculateMinBaseSize(bricks)
+
+  const estimatedBloxCost = totalBlox // 1 BLOX per unit for now
+  const estimatedLicenseFeeEth = 0.01 // hardcoded for now
+
+  const handleConfirmMint = useCallback(() => {
+    console.log("[v0] Mint confirmed for build:", currentCreationId || "new-build")
+    setShowMintModal(false)
+    // TODO: Implement actual blockchain minting
+  }, [currentCreationId])
 
   useEffect(() => {
     const checkKvAvailability = async () => {
@@ -345,6 +357,7 @@ export default function V0Blocks() {
             onBaseDepthChange={setBaseDepth}
             interactionMode={interactionMode}
             onModeChange={handleModeChange}
+            onMintClick={() => setShowMintModal(true)}
           />
           <AudioPlayer />
         </>
@@ -383,6 +396,19 @@ export default function V0Blocks() {
         isOpen={showIntegrationDialog}
         onClose={() => setShowIntegrationDialog(false)}
         actionType={integrationDialogType}
+      />
+      <MintBuildModal
+        open={showMintModal}
+        onOpenChange={setShowMintModal}
+        buildId={currentCreationId || `temp-${Date.now()}`}
+        buildName={currentCreationName || "Untitled Build"}
+        totalBloxMass={totalBlox}
+        estimatedLicenseFeeEth={estimatedLicenseFeeEth}
+        estimatedBloxCost={estimatedBloxCost}
+        onConfirmMint={handleConfirmMint}
+        bricks={bricks}
+        gridWidth={baseWidth}
+        gridDepth={baseDepth}
       />
     </div>
   )

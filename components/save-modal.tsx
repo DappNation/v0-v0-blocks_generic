@@ -96,7 +96,7 @@ export const SaveModal: React.FC<SaveModalProps> = ({
         )}
 
         <div className="mb-4">
-          <label htmlFor="creation-name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="creation-name" className="block text-sm font-medium text-black mb-1">
             Name
           </label>
           <input
@@ -105,7 +105,7 @@ export const SaveModal: React.FC<SaveModalProps> = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="My awesome creation"
-            className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-black text-black"
             disabled={isSaving}
           />
         </div>
