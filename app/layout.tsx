@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   generator: "v0.app",
   keywords: ["ETHBLOX", "web3", "ethereum", "3D builder", "NFT", "on-chain art", "crypto art"],
   authors: [{ name: "ETHBLOX" }],
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "ETHBLOX - On-Chain Creative Protocol",
     description: "Digital matter meets Ethereum. Build, create, mint.",
