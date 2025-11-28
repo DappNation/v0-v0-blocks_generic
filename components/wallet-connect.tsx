@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Wallet } from "lucide-react"
-import { useMetaMask } from "@/hooks/use-metamask"
+import { useMetaMaskContext } from "@/contexts/metamask-context"
 import { useState } from "react"
 import { WalletDrawer } from "./wallet-drawer"
 
@@ -11,7 +11,7 @@ interface WalletConnectProps {
 }
 
 export function WalletConnect({ variant = "default" }: WalletConnectProps) {
-  const { isConnected, connect, account, disconnect, switchAccount } = useMetaMask()
+  const { isConnected, connect, account, disconnect, switchAccount } = useMetaMaskContext()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   console.log("[v0] WalletConnect state:", { isConnected, account, drawerOpen })

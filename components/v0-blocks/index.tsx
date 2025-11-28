@@ -31,7 +31,7 @@ import {
 } from "./events"
 import { IntegrationCheckDialog } from "../integration-check-dialog"
 import { isKvConfigured } from "@/lib/utils/check-kv-integration"
-import { useMetaMask } from "@/hooks/use-metamask"
+import { useMetaMaskContext } from "@/contexts/metamask-context"
 
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
@@ -41,7 +41,7 @@ function calculateTotalBlox(bricks: Brick[]): number {
 }
 
 export default function V0Blocks() {
-  const { account, isConnected } = useMetaMask()
+  const { account, isConnected } = useMetaMaskContext()
 
   const { currentTheme, currentColors, selectedColor, setSelectedColor, handleSelectColor, handleThemeChange } =
     useColorTheme()
@@ -335,7 +335,12 @@ export default function V0Blocks() {
         isWalletConnected={isConnected}
       />
 
-      <LoadModal isOpen={showLoadModal} onClose={() => setShowLoadModal(false)} onLoad={handleLoadCreation} />
+      <LoadModal
+        isOpen={showLoadModal}
+        onClose={() => setShowLoadModal(false)}
+        onLoad={handleLoadCreation}
+        walletAccount={account}
+      />
 
       <ClearConfirmationModal isOpen={showClearModal} onClose={() => setShowClearModal(false)} onClear={onClearSet} />
       <IntegrationCheckDialog

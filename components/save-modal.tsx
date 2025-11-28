@@ -32,6 +32,10 @@ export const SaveModal: React.FC<SaveModalProps> = ({
   walletAccount,
   isWalletConnected,
 }) => {
+  useEffect(() => {
+    console.log("[v0] SaveModal wallet props:", { walletAccount, isWalletConnected })
+  }, [walletAccount, isWalletConnected])
+
   const [name, setName] = useState(currentName)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")

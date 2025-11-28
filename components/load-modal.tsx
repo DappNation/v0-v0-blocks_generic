@@ -9,34 +9,32 @@ import { deleteCreation } from "@/lib/actions/delete-creation"
 import type { SavedCreation } from "@/lib/types"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useMetaMask } from "@/hooks/use-metamask"
 
 interface LoadModalProps {
   isOpen: boolean
   onClose: () => void
   onLoad: (creation: SavedCreation) => void
+  walletAccount: string | null
 }
 
-export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad }) => {
+export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad, walletAccount }) => {
   const [creations, setCreations] = useState<SavedCreation[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [isDeleting, setIsDeleting] = useState<string | null>(null)
 
-  const { account } = useMetaMask()
-
   useEffect(() => {
     if (isOpen) {
       loadCreations()
     }
-  }, [isOpen, account])
+  }, [isOpen, walletAccount])
 
   const loadCreations = async () => {
     setIsLoading(true)
     setError("")
 
     try {
-      const result = await getCreations(20, 0, account || undefined)
+      const result = await getCreations(20, 0, walletAccount || undefined)
 
       if (result.success) {
         setCreations(result.creations || [])
@@ -62,10 +60,9 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
     setIsDeleting(id)
 
     try {
-      const result = await deleteCreation(id, account || undefined)
+      const result = await deleteCreation(id, walletAccount || undefined)
 
       if (result.success) {
-        // Remove from local state
         setCreations(creations.filter((c) => c.id !== id))
       } else {
         alert(result.message || "Failed to delete creation")
@@ -81,7 +78,6 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
     return new Date(timestamp).toLocaleString()
   }
 
-  // Skeleton loading component
   const CreationSkeleton = () => (
     <div className="p-4 border border-gray-200 rounded-xl animate-pulse">
       <div className="flex justify-between items-start">
@@ -102,7 +98,7 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Load Creation</DialogTitle>
           <div className="flex justify-between items-center mt-2">
-            <p className="text-gray-600">{account ? "Your saved creations" : "Select a creation to load"}</p>
+            <p className="text-gray-600">{walletAccount ? "Your saved creations" : "All public creations"}</p>
             <Button
               onClick={loadCreations}
               variant="ghost"
@@ -121,13 +117,12 @@ export const LoadModal: React.FC<LoadModalProps> = ({ isOpen, onClose, onLoad })
         <div className="overflow-y-auto flex-grow">
           {isLoading ? (
             <div className="grid grid-cols-1 gap-3">
-              {/* Show only two skeleton rows */}
               <CreationSkeleton />
               <CreationSkeleton />
             </div>
           ) : creations.length === 0 ? (
             <div className="text-center py-10 text-gray-500">
-              {account ? "You haven't saved any builds yet" : "No saved creations found"}
+              {walletAccount ? "You haven't saved any builds yet" : "No public creations found"}
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-3">
