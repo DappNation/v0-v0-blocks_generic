@@ -23,6 +23,10 @@ export interface ColorSelectorProps {
   baseWidth: number
   baseDepth: number
   totalBlox: number
+  minBaseWidth: number
+  minBaseDepth: number
+  onBaseWidthChange: (value: number) => void
+  onBaseDepthChange: (value: number) => void
 }
 
 export type ColorTheme = "default" | "muted" | "monochrome"

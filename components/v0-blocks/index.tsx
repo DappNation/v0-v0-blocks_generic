@@ -40,6 +40,39 @@ function calculateTotalBlox(bricks: Brick[]): number {
   }, 0)
 }
 
+function calculateMinBaseSize(bricks: Brick[]): { minWidth: number; minDepth: number } {
+  if (bricks.length === 0) {
+    return { minWidth: 1, minDepth: 1 }
+  }
+
+  let maxWidth = 1
+  let maxDepth = 1
+
+  bricks.forEach((brick) => {
+    // Check the brick's dimensions
+    if (brick.width > maxWidth) {
+      maxWidth = brick.width
+    }
+    if (brick.height > maxDepth) {
+      maxDepth = brick.height
+    }
+
+    // Also check position + dimension to get the furthest extent
+    const [x, , z] = brick.position
+    const brickMaxX = Math.abs(x) + brick.width / 2
+    const brickMaxZ = Math.abs(z) + brick.height / 2
+
+    if (brickMaxX > maxWidth / 2) {
+      maxWidth = Math.ceil(brickMaxX * 2)
+    }
+    if (brickMaxZ > maxDepth / 2) {
+      maxDepth = Math.ceil(brickMaxZ * 2)
+    }
+  })
+
+  return { minWidth: maxWidth, minDepth: maxDepth }
+}
+
 export default function V0Blocks() {
   const { account, isConnected } = useMetaMaskContext()
 
@@ -69,6 +102,8 @@ export default function V0Blocks() {
 
   const totalBlox = calculateTotalBlox(bricks)
 
+  const { minWidth: minBaseWidth, minDepth: minBaseDepth } = calculateMinBaseSize(bricks)
+
   useEffect(() => {
     const checkKvAvailability = async () => {
       try {
@@ -90,7 +125,14 @@ export default function V0Blocks() {
     if (depth > baseDepth) {
       setDepth(baseDepth)
     }
-  }, [baseWidth, baseDepth, width, depth])
+    // Ensure base size doesn't go below minimum required by bricks
+    if (baseWidth < minBaseWidth) {
+      setBaseWidth(minBaseWidth)
+    }
+    if (baseDepth < minBaseDepth) {
+      setBaseDepth(minBaseDepth)
+    }
+  }, [baseWidth, baseDepth, width, depth, minBaseWidth, minBaseDepth])
 
   useTouchHandling()
 
@@ -275,14 +317,7 @@ export default function V0Blocks() {
       </Canvas>
       {!isPlaying && (
         <>
-          <ActionToolbar
-            onModeChange={handleModeChange}
-            currentMode={interactionMode}
-            baseWidth={baseWidth}
-            baseDepth={baseDepth}
-            onBaseWidthChange={setBaseWidth}
-            onBaseDepthChange={setBaseDepth}
-          />
+          <ActionToolbar onModeChange={handleModeChange} currentMode={interactionMode} />
           <ColorSelector
             colors={currentColors}
             selectedColor={selectedColor}
@@ -308,6 +343,10 @@ export default function V0Blocks() {
             baseWidth={baseWidth}
             baseDepth={baseDepth}
             totalBlox={totalBlox}
+            minBaseWidth={minBaseWidth}
+            minBaseDepth={minBaseDepth}
+            onBaseWidthChange={setBaseWidth}
+            onBaseDepthChange={setBaseDepth}
           />
           <AudioPlayer />
         </>

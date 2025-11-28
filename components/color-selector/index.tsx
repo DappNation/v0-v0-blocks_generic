@@ -35,6 +35,10 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   baseWidth,
   baseDepth,
   totalBlox,
+  minBaseWidth,
+  minBaseDepth,
+  onBaseWidthChange,
+  onBaseDepthChange,
 }) => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -83,6 +87,43 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
             baseWidth={baseWidth}
             baseDepth={baseDepth}
           />
+
+          <div className="w-px h-6 bg-gray-600" />
+
+          {/* Base size controls section */}
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center">
+              <label className="text-[10px] text-[hsl(var(--ethblox-text-secondary))] mb-1">Base W</label>
+              <input
+                type="number"
+                min={minBaseWidth}
+                max={20}
+                value={baseWidth}
+                onChange={(e) => {
+                  const value = Number(e.target.value) || minBaseWidth
+                  const clamped = Math.max(minBaseWidth, Math.min(20, value))
+                  onBaseWidthChange(clamped)
+                }}
+                className="w-12 rounded border border-[hsl(var(--ethblox-border))] bg-[hsl(var(--ethblox-bg-secondary))] px-2 py-1 text-xs text-[hsl(var(--ethblox-text-primary))] text-center focus:outline-none focus:ring-1 focus:ring-[hsl(var(--ethblox-accent))]"
+              />
+            </div>
+            <span className="text-[hsl(var(--ethblox-text-secondary))] text-xs">×</span>
+            <div className="flex flex-col items-center">
+              <label className="text-[10px] text-[hsl(var(--ethblox-text-secondary))] mb-1">Base D</label>
+              <input
+                type="number"
+                min={minBaseDepth}
+                max={20}
+                value={baseDepth}
+                onChange={(e) => {
+                  const value = Number(e.target.value) || minBaseDepth
+                  const clamped = Math.max(minBaseDepth, Math.min(20, value))
+                  onBaseDepthChange(clamped)
+                }}
+                className="w-12 rounded border border-[hsl(var(--ethblox-border))] bg-[hsl(var(--ethblox-bg-secondary))] px-2 py-1 text-xs text-[hsl(var(--ethblox-text-primary))] text-center focus:outline-none focus:ring-1 focus:ring-[hsl(var(--ethblox-accent))]"
+              />
+            </div>
+          </div>
 
           <div className="w-px h-6 bg-gray-600" />
 
