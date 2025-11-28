@@ -27,18 +27,22 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <a
-                  href="https://docs.google.com/document/d/e/2PACX-1vQ1rIXEv29dH1xJ5R2Y-nPWx4k-Lbknw_IvIDhLvu2bUxuAyJCs3pgq48CXGZB7UMM4a32H08PKbNqB/pub"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link href="/whitepaper">
                   <Button
                     size="lg"
                     className="bg-[hsl(var(--ethblox-green))] hover:bg-[hsl(var(--ethblox-green))]/90 text-[hsl(var(--ethblox-bg))] font-heading font-semibold px-6 gap-2 ethblox-glow"
                   >
                     READ THE PAPER
                   </Button>
-                </a>
+                </Link>
+                <Link href="/build">
+                  <Button
+                    size="lg"
+                    className="bg-[hsl(var(--ethblox-yellow))] hover:bg-[hsl(var(--ethblox-yellow))]/90 text-[hsl(var(--ethblox-bg))] font-heading font-semibold px-6 gap-2 ethblox-glow"
+                  >
+                    BUILD NOW
+                  </Button>
+                </Link>
                 <a href="https://discord.gg/ethblox" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"

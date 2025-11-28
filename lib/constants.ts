@@ -1,5 +1,5 @@
 export const GRID_SIZE = 20
-export const BRICK_HEIGHT = 1.2
+export const BRICK_HEIGHT = 1.0
 export const LAYER_GAP = 0.005
 export const GROUND_HEIGHT = BRICK_HEIGHT / 4
 export const STUD_HEIGHT = 0.2
@@ -21,7 +21,7 @@ export const MARBLE_TEXTURES = {
 export const USE_NEW_BRICK_STYLE = true
 
 export const DOME_RADIUS = 0.25 // Smaller dome radius
-export const DOME_HEIGHT = 0.15 // Very subtle height
+export const DOME_HEIGHT = 0.05 // Minimal height for flush appearance
 export const DOME_SEGMENTS = 16 // Smooth domes
 export const BRICK_CORNER_RADIUS = 0.05 // Subtle rounded corners
 export const BASE_PLATE_THICKNESS = 0.25 // Thinner base plate

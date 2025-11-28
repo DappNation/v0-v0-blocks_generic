@@ -9,6 +9,8 @@ import { DimensionControls } from "./dimension-controls"
 import { FileControls } from "./file-controls"
 import { ActionControls } from "./action-controls"
 import { MobileMenu } from "./mobile-menu"
+// import { MusicPlayer } from "@/components/music/music-player"
+import { ModeControls } from "./mode-controls"
 
 export const ColorSelector: React.FC<ColorSelectorProps> = ({
   colors,
@@ -39,6 +41,8 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   minBaseDepth,
   onBaseWidthChange,
   onBaseDepthChange,
+  interactionMode,
+  onModeChange,
 }) => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -55,14 +59,31 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   return (
     <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-4 z-10">
       {totalBlox > 0 && (
-        <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))] mx-auto">
-          <span className="text-sm font-medium">BLOX: {totalBlox}</span>
+        <div className="flex items-center justify-center mx-auto">
+          <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))]">
+            <span className="text-sm font-medium">BLOX: {totalBlox}</span>
+          </div>
         </div>
       )}
+      {/* Music player temporarily disabled - was causing placement issues */}
+      {/* <div className="flex items-center justify-center mx-auto">
+        <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))] flex items-center gap-4">
+          {totalBlox > 0 && (
+            <>
+              <span className="text-sm font-medium">BLOX: {totalBlox}</span>
+              <div className="w-px h-4 bg-gray-600" />
+            </>
+          )}
+          <MusicPlayer />
+        </div>
+      </div> */}
 
-      {/* Main Controls Panel */}
       <div className="bg-[hsl(var(--ethblox-surface))] backdrop-blur-md px-6 py-3 rounded-[28px] shadow-lg border border-[hsl(var(--ethblox-border))] text-[hsl(var(--ethblox-text-primary))]">
         <div className="flex items-center gap-3">
+          <ModeControls currentMode={interactionMode} onModeChange={onModeChange} isMobile={isMobile} />
+
+          <div className="w-px h-6 bg-gray-600" />
+
           <HistoryControls onUndo={onUndo} onRedo={onRedo} canUndo={canUndo} canRedo={canRedo} isMobile={isMobile} />
 
           <div className="w-px h-6 bg-gray-600" />
@@ -90,7 +111,6 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
 
           <div className="w-px h-6 bg-gray-600" />
 
-          {/* Base size controls section */}
           <div className="flex items-center gap-2">
             <div className="flex flex-col items-center">
               <label className="text-[10px] text-[hsl(var(--ethblox-text-secondary))] mb-1">Base W</label>

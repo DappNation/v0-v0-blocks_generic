@@ -7,7 +7,6 @@ import { Pause } from "lucide-react"
 import { AudioPlayer } from "../audio-player"
 import { Scene } from "../scene"
 import { ColorSelector } from "../color-selector"
-import { ActionToolbar } from "../action-toolbar"
 import { SaveModal } from "../save-modal"
 import { LoadModal } from "../load-modal"
 import { ClearConfirmationModal } from "./clear-confirmation-modal"
@@ -32,6 +31,7 @@ import {
 import { IntegrationCheckDialog } from "../integration-check-dialog"
 import { isKvConfigured } from "@/lib/utils/check-kv-integration"
 import { useMetaMaskContext } from "@/contexts/metamask-context"
+import { EthbloxLoader } from "../ethblox-loader"
 
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
@@ -49,7 +49,6 @@ function calculateMinBaseSize(bricks: Brick[]): { minWidth: number; minDepth: nu
   let maxDepth = 1
 
   bricks.forEach((brick) => {
-    // Check the brick's dimensions
     if (brick.width > maxWidth) {
       maxWidth = brick.width
     }
@@ -57,7 +56,6 @@ function calculateMinBaseSize(bricks: Brick[]): { minWidth: number; minDepth: nu
       maxDepth = brick.height
     }
 
-    // Also check position + dimension to get the furthest extent
     const [x, , z] = brick.position
     const brickMaxX = Math.abs(x) + brick.width / 2
     const brickMaxZ = Math.abs(z) + brick.height / 2
@@ -125,7 +123,6 @@ export default function V0Blocks() {
     if (depth > baseDepth) {
       setDepth(baseDepth)
     }
-    // Ensure base size doesn't go below minimum required by bricks
     if (baseWidth < minBaseWidth) {
       setBaseWidth(minBaseWidth)
     }
@@ -286,7 +283,7 @@ export default function V0Blocks() {
       onContextMenu={(e) => e.preventDefault()}
     >
       <SiteHeader />
-      <Canvas shadows camera={{ position: [0, 15, 15], fov: 50 }}>
+      <Canvas shadows camera={{ position: [0, 15, 15], fov: 50 }} fallback={<EthbloxLoader />}>
         <Scene
           bricks={bricks}
           selectedColor={selectedColor}
@@ -317,7 +314,6 @@ export default function V0Blocks() {
       </Canvas>
       {!isPlaying && (
         <>
-          <ActionToolbar onModeChange={handleModeChange} currentMode={interactionMode} />
           <ColorSelector
             colors={currentColors}
             selectedColor={selectedColor}
@@ -347,6 +343,8 @@ export default function V0Blocks() {
             minBaseDepth={minBaseDepth}
             onBaseWidthChange={setBaseWidth}
             onBaseDepthChange={setBaseDepth}
+            interactionMode={interactionMode}
+            onModeChange={handleModeChange}
           />
           <AudioPlayer />
         </>
@@ -361,7 +359,6 @@ export default function V0Blocks() {
         </button>
       )}
 
-      {/* Modals */}
       <SaveModal
         isOpen={showSaveModal}
         onClose={() => setShowSaveModal(false)}

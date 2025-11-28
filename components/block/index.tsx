@@ -14,7 +14,6 @@ import {
   TEXTURES,
   USE_NEW_BRICK_STYLE,
   DOME_RADIUS,
-  DOME_HEIGHT,
   DOME_SEGMENTS,
   BRICK_CORNER_RADIUS,
 } from "@/lib/constants"
@@ -44,7 +43,7 @@ export const Block: React.FC<BlockProps> = ({
   const studPositions = useMemo(() => {
     const positions = []
     const yOffset = USE_NEW_BRICK_STYLE
-      ? BRICK_HEIGHT / 2 - LAYER_GAP / 2 + DOME_HEIGHT / 2
+      ? (BRICK_HEIGHT - LAYER_GAP) / 2 // Position domes flush on the top surface
       : BRICK_HEIGHT / 2 - LAYER_GAP / 2 + STUD_HEIGHT / 2
 
     for (let x = -width / 2 + 0.5; x < width / 2; x++) {

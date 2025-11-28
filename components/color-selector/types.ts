@@ -27,20 +27,22 @@ export interface ColorSelectorProps {
   minBaseDepth: number
   onBaseWidthChange: (value: number) => void
   onBaseDepthChange: (value: number) => void
+  interactionMode: "build" | "move" | "erase"
+  onModeChange: (mode: "build" | "move" | "erase") => void
 }
 
 export type ColorTheme = "default" | "muted" | "monochrome"
 
 export const COLOR_THEMES: Record<ColorTheme, string[]> = {
   default: [
-    "#FF3333", // Red
-    "#FF9933", // Orange
-    "#FFCC33", // Yellow
-    "#33CC66", // Green
-    "#33CCFF", // Light Blue
-    "#3366CC", // Dark Blue
-    "#9933CC", // Purple
-    "#222222", // Black
+    "#EA4335", // Google Red (vibrant)
+    "#FF9500", // Bright Orange
+    "#FBBC04", // Google Yellow (vibrant)
+    "#34A853", // Google Green (vibrant)
+    "#00D4FF", // Bright Cyan
+    "#4285F4", // Google Blue (vibrant)
+    "#9C27B0", // Vivid Purple
+    "#212121", // Deep Black
   ],
   muted: [
     "#CC6666", // Muted Red
