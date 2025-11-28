@@ -1,0 +1,66 @@
+# Building
+
+## Editor Interface
+
+### Toolbar
+
+- **Color Palette**: Select from 8 colors per theme
+- **Mould Selector**: Choose block dimensions
+- **Interaction Modes**: Build / Move / Erase
+- **View Controls**: Rotate, zoom, reset camera
+
+### Keyboard Shortcuts
+
+\`\`\`
+Cmd/Ctrl + S     Save build
+Cmd/Ctrl + O     Load build
+Cmd/Ctrl + Z     Undo
+1-8              Select color
+W/S              Adjust width
+A/D              Adjust depth
+C                Clear all
+Space            Toggle auto-rotate
+\`\`\`
+
+## Building Techniques
+
+### Stacking
+
+- Blocks snap to a 1.2-unit vertical grid
+- Each layer adds to build height
+- No overhang restrictions (currently)
+
+### Coloring
+
+- Choose from 3 themes: Default, Muted, Monochrome
+- 8 colors per theme
+- Color diversity increases BW
+
+### Optimization
+
+- Preview mass and BW before minting
+- Minimize redundant blocks
+- Use larger blocks for efficiency
+
+## Save & Load
+
+Builds are saved to:
+- **Local storage** (temporary)
+- **Cloud** (requires wallet connection)
+- **On-chain** (after minting as NFT)
+
+<Tag variant="experimental">Experimental</Tag>
+
+Collaborative editing coming soon.
+
+## Limits
+
+- Platform size: 20×20 grid
+- Block dimensions: 1-20 units (width/depth)
+- No height limit (stacks infinitely)
+- No enforced block count limit
+
+<Callout variant="warning">
+Very large builds may cause performance issues in the browser.
+</Callout>
+\`\`\`

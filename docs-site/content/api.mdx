@@ -1,0 +1,275 @@
+# API Reference
+
+## REST Endpoints
+
+### Builds API
+
+#### GET `/api/builds`
+
+Fetch public gallery builds.
+
+**Response:**
+\`\`\`json
+{
+  "builds": [
+    {
+      "id": "abc123",
+      "name": "My Tower",
+      "metadata": {
+        "mass": 150,
+        "uniqueColors": 5,
+        "bw": 12.45,
+        "createdAt": "2025-01-15T10:30:00Z"
+      }
+    }
+  ]
+}
+\`\`\`
+
+#### POST `/api/builds`
+
+Publish a build to the public gallery.
+
+**Request Body:**
+\`\`\`json
+{
+  "metadata": {
+    "id": "abc123",
+    "name": "My Tower",
+    "description": "A tall tower build",
+    "mass": 150,
+    "uniqueColors": 5,
+    "bw": 12.45,
+    "isPublic": true
+  },
+  "blox": [
+    {
+      "id": "blox_1",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "color": "#FF3333"
+    }
+  ]
+}
+\`\`\`
+
+**Response:**
+\`\`\`json
+{
+  "success": true,
+  "buildId": "abc123"
+}
+\`\`\`
+
+---
+
+### My Builds API
+
+#### GET `/api/my-builds?walletAddress={address}`
+
+Fetch builds for a specific wallet address.
+
+**Query Parameters:**
+- `walletAddress` (required) - Ethereum address
+
+**Response:**
+\`\`\`json
+{
+  "creations": [
+    {
+      "id": "xyz789",
+      "name": "My Castle",
+      "bricks": [...],
+      "createdAt": 1705315800000,
+      "updatedAt": 1705315800000
+    }
+  ]
+}
+\`\`\`
+
+#### DELETE `/api/my-builds?id={creationId}&walletAddress={address}`
+
+Delete a build.
+
+**Query Parameters:**
+- `id` (required) - Creation ID
+- `walletAddress` (required) - Owner's address
+
+**Response:**
+\`\`\`json
+{
+  "success": true
+}
+\`\`\`
+
+---
+
+## Server Actions
+
+### `saveCreation(name, bricks, walletAddress?)`
+
+Save a new build to Redis.
+
+**Parameters:**
+- `name`: string - Build name
+- `bricks`: Brick[] - Array of block data
+- `walletAddress`: string (optional) - User's wallet address
+
+**Returns:**
+\`\`\`typescript
+{
+  success: boolean
+  id: string
+  message: string
+}
+\`\`\`
+
+**Brick Type:**
+\`\`\`typescript
+type Brick = {
+  color: string                     // Hex color (e.g., "#FF3333")
+  position: [number, number, number] // [x, y, z]
+  width: number                     // X-axis dimension
+  height: number                    // Z-axis dimension (depth)
+}
+\`\`\`
+
+---
+
+### `updateCreation(id, bricks, walletAddress?)`
+
+Update an existing build.
+
+**Parameters:**
+- `id`: string - Creation ID
+- `bricks`: Brick[] - Updated block data
+- `walletAddress`: string (optional) - User's wallet address
+
+**Returns:**
+\`\`\`typescript
+{
+  success: boolean
+  message: string
+}
+\`\`\`
+
+---
+
+### `getCreations(walletAddress?)`
+
+Fetch saved builds.
+
+**Parameters:**
+- `walletAddress`: string (optional) - Filter by wallet
+
+**Returns:**
+\`\`\`typescript
+{
+  creations: SavedCreation[]
+}
+
+type SavedCreation = {
+  id: string
+  name: string
+  bricks: Brick[]
+  createdAt: number  // Unix timestamp (ms)
+  updatedAt: number
+}
+\`\`\`
+
+---
+
+### `deleteCreation(id, walletAddress?)`
+
+Delete a build.
+
+**Parameters:**
+- `id`: string - Creation ID
+- `walletAddress`: string (optional) - Owner's address
+
+**Returns:**
+\`\`\`typescript
+{
+  success: boolean
+}
+\`\`\`
+
+---
+
+## Data Storage
+
+### Redis Keys
+
+**Global Storage:**
+- `creation:{id}` - Full creation data (JSON)
+- `creations` - Sorted set (score = timestamp, member = id)
+
+**User-Specific Storage:**
+- `user:{address}:creations` - User's sorted set of creation IDs
+
+**Gallery Storage:**
+- `build:{id}` - Public gallery build data
+- `builds:public` - Sorted set of public build IDs
+
+---
+
+## Builder Weight Formula
+
+The BW (Builder Weight) score is calculated as:
+
+\`\`\`
+BW = log(1 + mass) × log(2 + uniqueColors)
+\`\`\`
+
+**Where:**
+- `mass` = Total block count
+- `uniqueColors` = Number of distinct colors used
+
+**Example:**
+- Build with 100 blocks and 5 colors:
+  - BW = log(101) × log(7) ≈ 4.615 × 1.946 ≈ 8.98
+
+---
+
+## Rate Limits
+
+<Callout variant="warning">
+Current MVP has no rate limiting. Production deployment will enforce:
+- 100 requests per minute per IP
+- 1000 builds per wallet per day
+</Callout>
+
+---
+
+## Error Codes
+
+| Code | Message | Cause |
+|------|---------|-------|
+| 400 | Invalid request body | Malformed JSON or missing fields |
+| 401 | Unauthorized | Invalid wallet signature |
+| 404 | Build not found | ID doesn't exist |
+| 500 | Internal server error | Redis connection or server issue |
+
+---
+
+## TypeScript SDK
+
+\`\`\`typescript
+import { saveCreation, getCreations } from '@/lib/actions'
+
+// Save a build
+const result = await saveCreation(
+  "My Tower",
+  bricks,
+  "0x1234...5678"
+)
+
+// Fetch builds
+const { creations } = await getCreations("0x1234...5678")
+\`\`\`
+
+<Callout variant="info">
+Full SDK with type definitions coming soon.
+</Callout>
+\`\`\`

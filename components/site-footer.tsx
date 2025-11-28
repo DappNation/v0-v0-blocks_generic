@@ -141,12 +141,14 @@ export function SiteFooter() {
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <Link
-                  href="/curve-guides"
+                <a
+                  href="/docs"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm text-[hsl(var(--ethblox-text-secondary))] hover:text-[hsl(var(--ethblox-blue))] transition-colors hover:pl-1 inline-block duration-200"
                 >
                   Docs
-                </Link>
+                </a>
               </li>
               <li>
                 <a

@@ -1,0 +1,217 @@
+# Frequently Asked Questions
+
+## General
+
+### What is ETHBLOX?
+
+ETHBLOX is an on-chain voxel building protocol where users create 3D structures in a browser-based editor and mint them as NFTs on Ethereum. Each build is scored using a Builder Weight (BW) system that rewards creativity and complexity.
+
+### Is ETHBLOX free to use?
+
+The builder interface is free to use. Saving builds requires a wallet connection but no fees. Minting builds as NFTs will require:
+- BLOX tokens (for build costs)
+- ETH (for gas fees)
+- Mould licenses (one-time BLOX payment)
+
+### What blockchain does ETHBLOX use?
+
+ETHBLOX will launch on Ethereum mainnet. We're currently in testnet/MVP phase.
+
+---
+
+## Building
+
+### How do I start building?
+
+1. Go to `/build` in the app
+2. Use the toolbar to select colors and block dimensions
+3. Click on the platform to place blocks
+4. Stack blocks by clicking on existing blocks
+5. Save your creation (requires wallet connection)
+
+### What are the build limits?
+
+- **Platform size**: 20×20 grid
+- **Block dimensions**: 1-20 units (width/depth)
+- **Height**: No limit (stack infinitely)
+- **Block count**: No enforced limit (performance may degrade with 1000+ blocks)
+
+### Can I rotate blocks?
+
+Not yet. All blocks are currently axis-aligned cubes. Rotation features are planned for future updates.
+
+### How do I change block colors?
+
+Use the color palette in the left sidebar or press number keys 1-8. You can switch between 3 color themes: Default, Muted, and Monochrome.
+
+### What keyboard shortcuts are available?
+
+\`\`\`
+Cmd/Ctrl + S     Save build
+Cmd/Ctrl + O     Load build
+Cmd/Ctrl + Z     Undo
+Cmd/Ctrl+Shift+Z Redo
+1-8              Select color
+W/S              Adjust width
+A/D              Adjust depth
+C                Clear all
+Space            Toggle auto-rotate
+B/M/E            Build/Move/Erase mode
+T                Cycle color themes
+\`\`\`
+
+---
+
+## Wallet & Accounts
+
+### Why do I need to connect a wallet?
+
+Wallet connection enables:
+- Saving builds to your personal cloud storage
+- Accessing "My Builds" gallery
+- Future: Minting NFTs and earning rewards
+
+### Can I use the builder without a wallet?
+
+Yes, but builds will only save to your browser's localStorage (temporary). Connect a wallet to save permanently and access builds from any device.
+
+### Which wallets are supported?
+
+Currently MetaMask only. Support for WalletConnect and other providers coming soon.
+
+### How do I switch wallets?
+
+Click your connected address in the header, then click "Switch Account" in the drawer. This will prompt MetaMask's account selector.
+
+---
+
+## Saving & Loading
+
+### Where are my builds stored?
+
+- **Temporary**: Browser localStorage (no wallet required)
+- **Permanent**: Vercel KV (Redis) cloud storage (wallet required)
+- **On-chain**: After minting as NFT (future feature)
+
+### Can other people see my builds?
+
+Only builds you explicitly publish to the gallery are visible to others. All saved builds in "My Builds" are private by default.
+
+### How many builds can I save?
+
+Currently no limit. Production deployment may enforce limits based on storage costs.
+
+### Can I export my builds?
+
+Not yet. Export to JSON, OBJ, and GLTF formats planned for future updates.
+
+---
+
+## Economics & Rewards
+
+### What is Builder Weight (BW)?
+
+BW is a score that measures build complexity using the formula:
+
+\`\`\`
+BW = log(1 + mass) × log(2 + uniqueColors)
+\`\`\`
+
+Higher BW means more creative/complex builds, which earn higher rewards from the weekly pool.
+
+### How do I earn BLOX tokens?
+
+After mainnet launch:
+1. Build and mint NFTs with high BW scores
+2. Stake BLOX in the protocol
+3. Participate in community challenges
+4. Trade builds on secondary markets
+
+### What are moulds?
+
+Moulds are licensed block shapes you can use in your builds. In the MVP, only rectangular blocks (1×1, 1×2, 2×2, etc.) are available. Future updates will add complex shapes like arches, curves, and custom geometries.
+
+### How much does it cost to mint a build?
+
+Cost formula (to be finalized):
+\`\`\`
+Build Cost = base_cost × log(1 + mass)
+\`\`\`
+
+Plus Ethereum gas fees. Exact pricing TBD before mainnet.
+
+---
+
+## Technical
+
+### What technology is ETHBLOX built with?
+
+- **Frontend**: Next.js 15 + React 19
+- **3D Engine**: Three.js + React Three Fiber
+- **Database**: Vercel KV (Redis)
+- **Smart Contracts**: Solidity (in development)
+- **Styling**: Tailwind CSS
+
+### Can I run ETHBLOX locally?
+
+Yes! Clone the repo, install dependencies, and run:
+\`\`\`bash
+npm install
+npm run dev
+\`\`\`
+
+See the [Overview](/docs/overview) page for detailed setup instructions.
+
+### Is the code open source?
+
+The MVP codebase is currently private. Open sourcing planned after security audits and mainnet launch.
+
+### How do I report bugs?
+
+Open an issue on our GitHub repo or reach out on Discord (links coming soon).
+
+---
+
+## Roadmap
+
+### When is mainnet launch?
+
+Targeting Q2 2025. Follow our Discord and Twitter for updates.
+
+### What features are coming next?
+
+**Phase 1 (Current MVP):**
+- ✅ 3D voxel builder
+- ✅ Wallet integration
+- ✅ Save/load functionality
+- ✅ Builder Weight calculation
+
+**Phase 2 (Q1 2025):**
+- Smart contract deployment (testnet)
+- Mould licensing system
+- Public gallery improvements
+- Export functionality
+
+**Phase 3 (Q2 2025):**
+- Mainnet launch
+- NFT minting
+- Rewards distribution
+- Secondary marketplace integration
+
+**Phase 4 (Q3+ 2025):**
+- Complex mould library
+- Collaborative building
+- Build remixing
+- Governance system
+
+---
+
+## Still have questions?
+
+Join our community:
+- **Discord**: [Coming soon]
+- **Twitter**: [@ethblox](https://twitter.com/ethblox)
+- **GitHub**: [Coming soon]
+
+Or email us at: hello@ethblox.xyz
+\`\`\`

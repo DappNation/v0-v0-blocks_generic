@@ -1,0 +1,57 @@
+# Protocol
+
+## Architecture Overview
+
+The ETHBLOX protocol consists of several interconnected smart contracts that manage mould licensing, BLOX tokens, build validation, and NFT minting.
+
+## Core Components
+
+### BLOX Token (ERC-20)
+
+The native utility token used for:
+- Licensing moulds
+- Paying build costs
+- Staking for rewards
+- Governance (future)
+
+### Mould Registry
+
+Manages the library of licensed building block shapes. Each mould has:
+- Unique geometry definition
+- License cost in BLOX
+- Rarity tier
+- Interoperability constraints
+
+### Build Validator
+
+On-chain logic that validates:
+- Structural integrity
+- Mould usage compliance
+- Mass limits per tier
+- Color assignments
+
+### Build NFT (ERC-721)
+
+Each completed build becomes a unique NFT with:
+- On-chain metadata
+- IPFS geometry reference
+- Builder Weight (BW) score
+- Provenance history
+
+## Technical Stack
+
+- **Smart Contracts**: Solidity 0.8.x
+- **Storage**: Ethereum mainnet + IPFS
+- **Indexing**: The Graph (subgraph)
+- **Frontend**: Next.js + Three.js
+
+<Callout variant="warning">
+Smart contracts are currently in audit. Do not use on mainnet yet.
+</Callout>
+
+## Contract Addresses
+
+<Tag variant="mvp">MVP</Tag>
+
+Contract addresses will be published after mainnet deployment.
+\`\`\`

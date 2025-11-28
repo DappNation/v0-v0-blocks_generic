@@ -1,0 +1,84 @@
+# Overview
+
+Welcome to the ETHBLOX documentation. ETHBLOX is an on-chain voxel building protocol that enables users to create, own, and trade 3D digital structures as NFTs on Ethereum.
+
+## What is ETHBLOX?
+
+ETHBLOX is a decentralized platform where creativity meets blockchain technology. Build intricate 3D voxel structures in a browser-based editor, save them to the cloud, and mint them as ERC-721 NFTs with verifiable on-chain metadata.
+
+## Key Features
+
+- **Browser-Based 3D Builder** - Intuitive Three.js editor with real-time rendering
+- **Wallet Integration** - MetaMask connection for user authentication and NFT ownership
+- **Cloud Storage** - Save and load builds with Vercel KV (Redis)
+- **On-Chain Ready** - Metadata prepared for ERC-721/1155 standards
+- **Builder Weight System** - Complexity scoring based on mass and color diversity
+- **Modular Architecture** - Clean separation between geometry, rendering, and storage
+
+## Installation & Setup
+
+### Prerequisites
+
+- **Node.js 18+**
+- **npm / pnpm / yarn** (choose one)
+- **Git**
+- **MetaMask** browser extension (for wallet features)
+
+### Quick Start
+
+Clone the repository and install dependencies:
+
+\`\`\`bash
+git clone <your-ethblox-repo-url> ethblox
+cd ethblox
+npm install
+npm run dev
+\`\`\`
+
+The builder will be available at `http://localhost:3000/build`
+
+### Environment Variables
+
+Required for full functionality:
+
+\`\`\`bash
+# Vercel KV (Redis) - for save/load features
+KV_URL=your_kv_url
+KV_REST_API_URL=your_api_url
+KV_REST_API_TOKEN=your_token
+
+# Optional: WalletConnect Project ID
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+\`\`\`
+
+<Callout variant="info">
+You can run the builder locally without Redis - builds will save to localStorage only.
+</Callout>
+
+## Architecture
+
+ETHBLOX consists of three main layers:
+
+1. **Frontend** - Next.js 15 App Router with React 19
+2. **3D Engine** - Three.js + React Three Fiber for voxel rendering
+3. **Backend** - Server actions + Vercel KV for data persistence
+
+### Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **3D Rendering**: Three.js (0.169), React Three Fiber, @react-three/drei
+- **State Management**: React hooks (no Zustand/Redux)
+- **Database**: Vercel KV (Redis)
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI + shadcn/ui
+- **TypeScript**: Full type safety throughout
+
+## Next Steps
+
+- **[Building](/docs/building)** - Learn the editor interface
+- **[Protocol](/docs/protocol)** - Understand the architecture
+- **[Tokenomics](/docs/tokenomics)** - Explore the BLOX economy
+- **[API](/docs/api)** - Reference for developers
+\`\`\`
+
+```mdx file="" isHidden

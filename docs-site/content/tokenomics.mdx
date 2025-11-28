@@ -1,0 +1,58 @@
+# Tokenomics
+
+## BLOX Token
+
+BLOX is the native utility token of the ETHBLOX protocol.
+
+### Supply
+
+- **Total Supply**: 1,000,000,000 BLOX
+- **Initial Circulating**: 100,000,000 BLOX (10%)
+- **Unlock Schedule**: 4-year linear vesting
+
+### Allocation
+
+- 40% - Community rewards
+- 20% - Team (4-year vesting)
+- 15% - Treasury
+- 15% - Public sale
+- 10% - Liquidity
+
+## Token Utility
+
+### Mould Licensing
+
+Users spend BLOX to license moulds for building. License costs scale with rarity:
+
+- Common: 100 BLOX
+- Uncommon: 500 BLOX
+- Rare: 2,000 BLOX
+- Epic: 10,000 BLOX
+- Legendary: 50,000 BLOX
+
+### Build Costs
+
+Each BLOX unit in a build has a marginal cost:
+- Cost = base_cost × log(1 + mass)
+
+### Staking
+
+Stake BLOX to earn:
+- Protocol fees (70% to stakers)
+- Builder rewards based on BW
+- Governance rights (future)
+
+## Builder Weight (BW)
+
+BW determines reward distribution:
+
+\`\`\`
+BW = log(1 + mass) × log(2 + uniqueColors)
+\`\`\`
+
+Higher BW = Higher share of weekly rewards pool.
+
+<Callout variant="info">
+Final tokenomics parameters subject to change before mainnet launch.
+</Callout>
+\`\`\`

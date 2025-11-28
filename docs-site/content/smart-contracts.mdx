@@ -1,0 +1,56 @@
+# Smart Contracts
+
+## Contract Architecture
+
+The ETHBLOX protocol consists of 4 core contracts:
+
+### 1. BLOX Token (ERC-20)
+
+Standard ERC-20 implementation with:
+- Fixed supply of 1B tokens
+- Burnable
+- Pausable (emergency)
+
+**Key Functions:**
+- `transfer(address to, uint256 amount)`
+- `approve(address spender, uint256 amount)`
+- `burn(uint256 amount)`
+
+### 2. MouldRegistry
+
+Manages mould definitions and licensing.
+
+**Key Functions:**
+- `licenseMould(uint256 mouldId)` - Pay BLOX to license
+- `getMouldCost(uint256 mouldId)` - Query license cost
+- `hasLicense(address user, uint256 mouldId)` - Check license
+
+### 3. BuildValidator
+
+Validates build data before minting.
+
+**Key Functions:**
+- `validateBuild(Build calldata build)` - Checks structure
+- `calculateBW(uint256 mass, uint256 colors)` - Computes BW
+- `calculateCost(uint256 mass)` - Returns BLOX cost
+
+### 4. BuildNFT (ERC-721)
+
+Mints builds as NFTs.
+
+**Key Functions:**
+- `mint(Build calldata build)` - Pay BLOX and mint
+- `tokenURI(uint256 tokenId)` - Returns metadata
+- `getBW(uint256 tokenId)` - Returns Builder Weight
+
+## Data Structures
+
+```solidity
+struct Build {
+  string name;
+  string ipfsHash;      // Geometry data on IPFS
+  uint256 mass;         // Total block count
+  uint256 uniqueColors; // Color diversity
+  uint256 bw;           // Builder Weight
+  uint256[] mouldIds;   // Licensed moulds used
+}
