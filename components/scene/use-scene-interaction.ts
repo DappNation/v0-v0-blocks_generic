@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
-import { BRICK_HEIGHT, LAYER_GAP, GROUND_HEIGHT } from "@/lib/constants"
+import { BRICK_HEIGHT, GROUND_HEIGHT } from "@/lib/constants"
 import type { Brick } from "@/components/v0-blocks/events"
 
 interface UseSceneInteractionProps {
@@ -142,7 +142,7 @@ export function useSceneInteraction({
 
     if (relevantBricks.length === 0) return GROUND_HEIGHT / 2 + BRICK_HEIGHT / 2
 
-    return Math.max(...relevantBricks.map((brick) => brick.position[1])) + BRICK_HEIGHT + LAYER_GAP
+    return Math.max(...relevantBricks.map((brick) => brick.position[1])) + BRICK_HEIGHT
   }
 
   // Find the brick at the current pointer position

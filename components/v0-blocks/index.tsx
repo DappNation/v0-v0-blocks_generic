@@ -33,6 +33,7 @@ import { isKvConfigured } from "@/lib/utils/check-kv-integration"
 import { useMetaMaskContext } from "@/contexts/metamask-context"
 import { EthbloxLoader } from "../ethblox-loader"
 import { MintBuildModal } from "../mint/mint-build-modal"
+import { BRICK_HEIGHT } from "@/lib/constants"
 
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
@@ -70,6 +71,65 @@ function calculateMinBaseSize(bricks: Brick[]): { minWidth: number; minDepth: nu
   })
 
   return { minWidth: maxWidth, minDepth: maxDepth }
+}
+
+function migrateBrickPositions(bricks: Brick[]): Brick[] {
+  console.log("[v0] Migration starting with", bricks.length, "bricks")
+
+  if (bricks.length === 0) return bricks
+
+  // Sort bricks by Y position
+  const sortedBricks = [...bricks].sort((a, b) => a.position[1] - b.position[1])
+
+  // Group into layers using tolerance (bricks within 0.01 units are in same layer)
+  const TOLERANCE = 0.01
+  const layers: Brick[][] = []
+
+  sortedBricks.forEach((brick) => {
+    const brickY = brick.position[1]
+
+    // Find existing layer within tolerance
+    let addedToLayer = false
+    for (const layer of layers) {
+      const layerY = layer[0].position[1]
+      if (Math.abs(brickY - layerY) < TOLERANCE) {
+        layer.push(brick)
+        addedToLayer = true
+        break
+      }
+    }
+
+    // Create new layer if not added to existing one
+    if (!addedToLayer) {
+      layers.push([brick])
+    }
+  })
+
+  console.log("[v0] Found", layers.length, "layers")
+
+  // Recalculate Y positions: each layer should be at layerIndex * BRICK_HEIGHT
+  // No gaps between layers
+  const migratedBricks: Brick[] = []
+
+  layers.forEach((layer, layerIndex) => {
+    const correctY = layerIndex * BRICK_HEIGHT
+    const oldY = layer[0].position[1]
+    const adjustment = correctY - oldY
+
+    console.log(
+      `[v0] Layer ${layerIndex}: ${layer.length} bricks, old Y=${oldY.toFixed(3)}, new Y=${correctY.toFixed(3)}, adjustment=${adjustment.toFixed(3)}`,
+    )
+
+    layer.forEach((brick) => {
+      migratedBricks.push({
+        ...brick,
+        position: [brick.position[0], correctY, brick.position[2]],
+      })
+    })
+  })
+
+  console.log("[v0] Migration complete")
+  return migratedBricks
 }
 
 export default function V0Blocks() {
@@ -251,9 +311,11 @@ export default function V0Blocks() {
       shapeId: brick.shapeId ?? getShapeIdForBrickDimensions(brick.width, brick.height),
     }))
 
-    setBricks(normalisedBricks)
+    const migratedBricks = migrateBrickPositions(normalisedBricks)
 
-    const newHistory = [[...normalisedBricks]]
+    setBricks(migratedBricks)
+
+    const newHistory = [[...migratedBricks]]
     setHistory(newHistory)
     setHistoryIndex(0)
 

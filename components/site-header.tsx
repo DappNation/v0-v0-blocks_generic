@@ -45,6 +45,19 @@ export function SiteHeader() {
               BUILDER
             </Button>
           </Link>
+          <Link href="/space">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`text-xs font-medium tracking-wide ${
+                pathname === "/space"
+                  ? "text-[hsl(var(--ethblox-accent-cyan))] bg-[hsl(var(--ethblox-surface))]"
+                  : "text-[hsl(var(--ethblox-text-secondary))] hover:text-[hsl(var(--ethblox-text-primary))] hover:bg-[hsl(var(--ethblox-surface))]"
+              }`}
+            >
+              SPACE
+            </Button>
+          </Link>
           <Link href="/gallery">
             <Button
               variant="ghost"
@@ -146,6 +159,12 @@ export function SiteHeader() {
                       className="text-sm text-[hsl(var(--ethblox-text-primary))] hover:text-[hsl(var(--ethblox-accent-cyan))] transition-colors py-2 px-3 rounded hover:bg-[hsl(var(--ethblox-surface-elevated))]"
                     >
                       Builder
+                    </Link>
+                    <Link
+                      href="/space"
+                      className="text-sm text-[hsl(var(--ethblox-text-primary))] hover:text-[hsl(var(--ethblox-accent-cyan))] transition-colors py-2 px-3 rounded hover:bg-[hsl(var(--ethblox-surface-elevated))]"
+                    >
+                      Space
                     </Link>
                     <Link
                       href="/gallery"
