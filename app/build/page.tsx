@@ -1,13 +1,13 @@
-"use client"
+/**
+ * Builder SSR Safety:
+ * - The builder is client-only and must never render on the server
+ * - V0BlocksClient uses dynamic import with ssr: false
+ * - All Three.js/R3F components are marked "use client"
+ * - No server imports of client-only modules (Three.js, Canvas, etc.)
+ */
 
-import dynamic from "next/dynamic"
-import { LoadingBrick } from "@/components/loading-brick"
-
-const V0Blocks = dynamic(() => import("@/components/v0-blocks"), {
-  ssr: false,
-  loading: () => <LoadingBrick />,
-})
+import { V0BlocksClient } from "@/components/v0-blocks-client"
 
 export default function BuilderPage() {
-  return <V0Blocks />
+  return <V0BlocksClient />
 }

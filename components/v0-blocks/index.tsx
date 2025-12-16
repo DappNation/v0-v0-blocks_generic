@@ -34,6 +34,11 @@ import { useMetaMaskContext } from "@/contexts/metamask-context"
 import { EthbloxLoader } from "../ethblox-loader"
 import { MintBuildModal } from "../mint/mint-build-modal"
 
+// Runtime guard to prevent SSR execution
+if (typeof window === "undefined") {
+  throw new Error("V0Blocks component must only run on the client")
+}
+
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
     const mass = brick.width * brick.height
