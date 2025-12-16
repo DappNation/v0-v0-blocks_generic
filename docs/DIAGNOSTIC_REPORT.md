@@ -41,7 +41,7 @@ The ETHBLOX codebase is a **Next.js 15 full-stack web application** with a 3D vo
 
 ### Main Folders/Modules
 
-\`\`\`
+```
 ethblox-mvp/
 ├── app/                      # Next.js App Router pages & routes
 │   ├── api/                  # API endpoints
@@ -67,7 +67,7 @@ ethblox-mvp/
 ├── hooks/                    # Custom React hooks
 │   └── use-metamask.ts       # Wallet connection logic
 └── public/                   # Static assets
-\`\`\`
+```
 
 ---
 
@@ -79,19 +79,19 @@ The geometry is represented as an **array of freeform voxel cubes** (called "Bri
 ### Brick Type Definition
 From `components/v0-blocks/events.ts`:
 
-\`\`\`typescript
+```typescript
 export type Brick = {
   color: string                           // Hex color (e.g., "#FF3333")
   position: [number, number, number]      // [x, y, z] coordinates
   width: number                           // Block width in grid units
   height: number                          // Block depth in grid units (confusing name)
 }
-\`\`\`
+```
 
 **Important:** `height` actually represents **depth** (Z-axis), not vertical height. Vertical (Y-axis) height is **fixed at 1.2 units per layer** (`BRICK_HEIGHT` constant).
 
 ### Example Geometry JSON
-\`\`\`json
+```json
 {
   "id": "abc123xyz",
   "name": "My Dog Build",
@@ -112,7 +112,7 @@ export type Brick = {
   "createdAt": 1732764000000,
   "updatedAt": 1732764000000
 }
-\`\`\`
+```
 
 ### Position, Rotation, Scale, Color Handling
 
@@ -156,14 +156,14 @@ From `components/block/index.tsx`, each block consists of:
 ### Physical Constants
 From `lib/constants.ts`:
 
-\`\`\`typescript
+```typescript
 export const GRID_SIZE = 20           // Platform size (20×20)
 export const BRICK_HEIGHT = 1.2       // Y-axis height per layer
 export const LAYER_GAP = 0.005        // Gap between stacked blocks
 export const STUD_HEIGHT = 0.2        // Stud/pyramid height
 export const STUD_RADIUS = 0.3        // Stud/pyramid radius
 export const STUD_SEGMENTS = 16       // Geometry detail
-\`\`\`
+```
 
 ---
 
@@ -195,7 +195,7 @@ export const STUD_SEGMENTS = 16       // Geometry detail
 #### Save Endpoint
 `lib/actions/save-creation.ts`
 
-\`\`\`typescript
+```typescript
 POST /api/save (server action)
 Body: {
   name: string,
@@ -208,10 +208,10 @@ Response: {
   id: string,
   message: string
 }
-\`\`\`
+```
 
 #### Fields Stored in Redis
-\`\`\`typescript
+```typescript
 type SavedCreation = {
   id: string,                  // nanoid(10)
   name: string,               // User-provided name
@@ -219,7 +219,7 @@ type SavedCreation = {
   createdAt: number,          // Unix timestamp (ms)
   updatedAt: number           // Unix timestamp (ms)
 }
-\`\`\`
+```
 
 **Redis Keys**:
 - `creation:{id}` - Full creation data (JSON string)
@@ -257,14 +257,14 @@ If `currentCreationId` exists when saving, calls `updateCreation()` instead, whi
 #### 1. `/api/builds` (Gallery - Public Builds)
 
 **GET** - Fetch public builds
-\`\`\`typescript
+```typescript
 Response: {
   builds: Build[]
 }
-\`\`\`
+```
 
 **POST** - Publish build to gallery
-\`\`\`typescript
+```typescript
 Body: {
   metadata: {
     id: string,
@@ -284,7 +284,7 @@ Response: {
   success: boolean,
   buildId: string
 }
-\`\`\`
+```
 
 **Business Logic**:
 - Validates build structure
@@ -296,22 +296,22 @@ Response: {
 #### 2. `/api/my-builds` (User-Specific Builds)
 
 **GET** - Fetch user's builds
-\`\`\`typescript
+```typescript
 Query params: ?walletAddress={address}
 
 Response: {
   creations: SavedCreation[]
 }
-\`\`\`
+```
 
 **DELETE** - Delete a build
-\`\`\`typescript
+```typescript
 Query params: ?id={creationId}&walletAddress={address}
 
 Response: {
   success: boolean
 }
-\`\`\`
+```
 
 **Business Logic**:
 - Fetches from `user:{address}:creations` sorted set
@@ -387,11 +387,11 @@ Response: {
 From `lib/types.ts`:
 
 #### Builder Weight (BW) Formula
-\`\`\`typescript
+```typescript
 export function calculateBW(mass: number, uniqueColors: number): number {
   return Math.log(1 + mass) * Math.log(2 + uniqueColors)
 }
-\`\`\`
+```
 
 **Inputs**:
 - `mass` - Total BLOX count (number of blocks)
@@ -400,7 +400,7 @@ export function calculateBW(mass: number, uniqueColors: number): number {
 **Output**: BW score (floating point number)
 
 #### Build Metadata Type
-\`\`\`typescript
+```typescript
 export type BuildMetadata = {
   id: string,
   name: string,
@@ -412,7 +412,7 @@ export type BuildMetadata = {
   bw: number,                // Builder Weight score
   isPublic?: boolean
 }
-\`\`\`
+```
 
 ### What's NOT Implemented
 
@@ -448,12 +448,12 @@ export type BuildMetadata = {
 - **TODO in contracts.ts**: `image: ""` placeholder in metadata
 
 #### Local Storage Keys
-\`\`\`typescript
+```typescript
 "v0-blocks-data"           // Current build state
 "v0-blocks-selected-color"  // Last selected color
 "v0-blocks-theme"          // Color theme (default/muted/monochrome)
 "ethblox-load-creation"     // Flag to load creation on mount
-\`\`\`
+```
 
 ### Is There a Prisma Schema?
 
@@ -461,7 +461,7 @@ export type BuildMetadata = {
 
 ### Storage Architecture
 
-\`\`\`
+```
 Vercel KV (Redis)
 │
 ├── creation:{id} → SavedCreation (JSON)
@@ -470,7 +470,7 @@ Vercel KV (Redis)
 ├── creations → Sorted Set (global, score = timestamp)
 ├── user:{address}:creations → Sorted Set (user-specific)
 └── builds:public → Sorted Set (gallery builds)
-\`\`\`
+```
 
 ---
 
@@ -486,7 +486,7 @@ Vercel KV (Redis)
 `components/v0-blocks/index.tsx`
 
 #### State Management (React hooks)
-\`\`\`typescript
+```typescript
 const [bricks, setBricks] = useState<Brick[]>([])
 const [history, setHistory] = useState<Brick[][]>([[]])
 const [historyIndex, setHistoryIndex] = useState(0)
@@ -494,7 +494,7 @@ const [width, setWidth] = useState(2)
 const [depth, setDepth] = useState(2)
 const [selectedColor, setSelectedColor] = useState("#FF3333")
 const [interactionMode, setInteractionMode] = useState<"build" | "move" | "erase">("build")
-\`\`\`
+```
 
 ### Interactions Available
 
@@ -554,7 +554,7 @@ const [interactionMode, setInteractionMode] = useState<"build" | "move" | "erase
 ### Keyboard Shortcuts
 From `use-keyboard-shortcuts.ts`:
 
-\`\`\`
+```
 Cmd/Ctrl + S     → Save
 Cmd/Ctrl + O     → Load
 Cmd/Ctrl + Z     → Undo
@@ -566,7 +566,7 @@ C                → Clear (with confirmation)
 Space            → Toggle play mode
 B/M/E            → Switch to Build/Move/Erase mode
 T                → Cycle color themes
-\`\`\`
+```
 
 ---
 

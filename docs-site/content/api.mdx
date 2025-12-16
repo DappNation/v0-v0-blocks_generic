@@ -9,7 +9,7 @@
 Fetch public gallery builds.
 
 **Response:**
-\`\`\`json
+```json
 {
   "builds": [
     {
@@ -24,14 +24,14 @@ Fetch public gallery builds.
     }
   ]
 }
-\`\`\`
+```
 
 #### POST `/api/builds`
 
 Publish a build to the public gallery.
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "metadata": {
     "id": "abc123",
@@ -52,15 +52,15 @@ Publish a build to the public gallery.
     }
   ]
 }
-\`\`\`
+```
 
 **Response:**
-\`\`\`json
+```json
 {
   "success": true,
   "buildId": "abc123"
 }
-\`\`\`
+```
 
 ---
 
@@ -74,7 +74,7 @@ Fetch builds for a specific wallet address.
 - `walletAddress` (required) - Ethereum address
 
 **Response:**
-\`\`\`json
+```json
 {
   "creations": [
     {
@@ -86,7 +86,7 @@ Fetch builds for a specific wallet address.
     }
   ]
 }
-\`\`\`
+```
 
 #### DELETE `/api/my-builds?id={creationId}&walletAddress={address}`
 
@@ -97,11 +97,11 @@ Delete a build.
 - `walletAddress` (required) - Owner's address
 
 **Response:**
-\`\`\`json
+```json
 {
   "success": true
 }
-\`\`\`
+```
 
 ---
 
@@ -117,23 +117,23 @@ Save a new build to Redis.
 - `walletAddress`: string (optional) - User's wallet address
 
 **Returns:**
-\`\`\`typescript
+```typescript
 {
   success: boolean
   id: string
   message: string
 }
-\`\`\`
+```
 
 **Brick Type:**
-\`\`\`typescript
+```typescript
 type Brick = {
   color: string                     // Hex color (e.g., "#FF3333")
   position: [number, number, number] // [x, y, z]
   width: number                     // X-axis dimension
   height: number                    // Z-axis dimension (depth)
 }
-\`\`\`
+```
 
 ---
 
@@ -147,12 +147,12 @@ Update an existing build.
 - `walletAddress`: string (optional) - User's wallet address
 
 **Returns:**
-\`\`\`typescript
+```typescript
 {
   success: boolean
   message: string
 }
-\`\`\`
+```
 
 ---
 
@@ -164,7 +164,7 @@ Fetch saved builds.
 - `walletAddress`: string (optional) - Filter by wallet
 
 **Returns:**
-\`\`\`typescript
+```typescript
 {
   creations: SavedCreation[]
 }
@@ -176,7 +176,7 @@ type SavedCreation = {
   createdAt: number  // Unix timestamp (ms)
   updatedAt: number
 }
-\`\`\`
+```
 
 ---
 
@@ -189,11 +189,11 @@ Delete a build.
 - `walletAddress`: string (optional) - Owner's address
 
 **Returns:**
-\`\`\`typescript
+```typescript
 {
   success: boolean
 }
-\`\`\`
+```
 
 ---
 
@@ -218,9 +218,9 @@ Delete a build.
 
 The BW (Builder Weight) score is calculated as:
 
-\`\`\`
+```
 BW = log(1 + mass) × log(2 + uniqueColors)
-\`\`\`
+```
 
 **Where:**
 - `mass` = Total block count
@@ -255,7 +255,7 @@ Current MVP has no rate limiting. Production deployment will enforce:
 
 ## TypeScript SDK
 
-\`\`\`typescript
+```typescript
 import { saveCreation, getCreations } from '@/lib/actions'
 
 // Save a build
@@ -267,9 +267,9 @@ const result = await saveCreation(
 
 // Fetch builds
 const { creations } = await getCreations("0x1234...5678")
-\`\`\`
+```
 
 <Callout variant="info">
 Full SDK with type definitions coming soon.
 </Callout>
-\`\`\`
+```
