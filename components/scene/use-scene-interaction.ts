@@ -105,27 +105,20 @@ export function useSceneInteraction({
 
   const isValidPlacement = (position: [number, number, number], width: number, depth: number) => {
     const [x, y, z] = position
-    // Calculate the brick's extent in all directions
-    const left = x - width / 2
-    const right = x + width / 2
-    const top = z - depth / 2
-    const bottom = z + depth / 2
+    const left = Math.floor(x - width / 2)
+    const right = Math.ceil(x + width / 2)
+    const top = Math.floor(z - depth / 2)
+    const bottom = Math.ceil(z + depth / 2)
 
-    // Check if brick is within platform bounds
-    const platformLeft = -gridWidth / 2
-    const platformRight = gridWidth / 2
-    const platformTop = -gridDepth / 2
-    const platformBottom = gridDepth / 2
-
-    if (left < platformLeft || right > platformRight || top < platformTop || bottom > platformBottom) {
+    if (left < -gridWidth / 2 || right > gridWidth / 2 || top < -gridDepth / 2 || bottom > gridDepth / 2) {
       return false
     }
 
     return !bricks.some((brick) => {
-      const brickLeft = brick.position[0] - brick.width / 2
-      const brickRight = brick.position[0] + brick.width / 2
-      const brickTop = brick.position[2] - brick.height / 2
-      const brickBottom = brick.position[2] + brick.height / 2
+      const brickLeft = Math.floor(brick.position[0] - brick.width / 2)
+      const brickRight = Math.ceil(brick.position[0] + brick.width / 2)
+      const brickTop = Math.floor(brick.position[2] - brick.height / 2)
+      const brickBottom = Math.ceil(brick.position[2] + brick.height / 2)
 
       const horizontalOverlap = left < brickRight && right > brickLeft
       const verticalOverlap = top < brickBottom && bottom > brickTop
