@@ -331,6 +331,11 @@ export default function V0Blocks() {
 
   useEffect(() => {
     console.log("[v0] V0Blocks component mounted")
+    const earlyErrors = (window as any).__ETHBLOX_ERRORS__ || []
+    if (earlyErrors.length > 0) {
+      console.warn("[v0] Found early errors before V0Blocks mounted:", earlyErrors.length)
+    }
+
     logError("V0Blocks initialized", "general")
 
     // Check if Three.js is available

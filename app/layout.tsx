@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { jetbrainsMono, spaceGrotesk } from "./fonts"
 import { Providers } from "./providers"
+import { ErrorCaptureScript } from "@/components/error-capture-script"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
       <body className={`${jetbrainsMono.className} antialiased`}>
+        <ErrorCaptureScript />
         <Providers>{children}</Providers>
       </body>
     </html>

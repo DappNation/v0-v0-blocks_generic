@@ -11,20 +11,24 @@ export function ErrorDebugPanel() {
   const [errorCount, setErrorCount] = useState(0)
 
   useEffect(() => {
-    if (!errorLogger) return
-
     const interval = setInterval(() => {
-      const currentLogs = errorLogger.getLogs()
-      setLogs(currentLogs)
-      setErrorCount(currentLogs.length)
+      const globalErrors = (window as any).__ETHBLOX_ERRORS__ || []
+      const loggerErrors = errorLogger?.getLogs() || []
+      const allErrors = [...globalErrors, ...loggerErrors]
+
+      setLogs(allErrors)
+      setErrorCount(allErrors.length)
     }, 1000)
 
     return () => clearInterval(interval)
   }, [])
 
   const handleDownload = () => {
-    if (!errorLogger) return
-    const data = errorLogger.exportLogs()
+    const globalErrors = (window as any).__ETHBLOX_ERRORS__ || []
+    const loggerErrors = errorLogger?.getLogs() || []
+    const allErrors = [...globalErrors, ...loggerErrors]
+
+    const data = JSON.stringify(allErrors, null, 2)
     const blob = new Blob([data], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -35,24 +39,25 @@ export function ErrorDebugPanel() {
   }
 
   const handleClear = () => {
-    if (!errorLogger) return
-    errorLogger.clearLogs()
+    if (errorLogger) errorLogger.clearLogs()
+    if ((window as any).__ETHBLOX_ERRORS__) {
+      ;(window as any).__ETHBLOX_ERRORS__ = []
+    }
     setLogs([])
     setErrorCount(0)
   }
 
-  if (!errorLogger) return null
-
   return (
     <>
-      {/* Error count badge - only show if there are errors */}
-      {errorCount > 0 && !isOpen && (
+      {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors z-50"
-          aria-label={`${errorCount} errors logged`}
+          className={`fixed bottom-4 right-4 ${
+            errorCount > 0 ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"
+          } text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition-colors z-50 font-bold`}
+          aria-label={errorCount > 0 ? `${errorCount} errors logged` : "Open debug panel"}
         >
-          {errorCount}
+          {errorCount > 0 ? errorCount : "?"}
         </button>
       )}
 
