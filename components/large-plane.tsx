@@ -1,3 +1,4 @@
+"use client"
 import type React from "react"
 import * as THREE from "three"
 import { useTexture } from "@react-three/drei"

@@ -17,6 +17,8 @@ import { useTouchHandling } from "./use-touch-handling"
 import { useLocalStorage } from "./use-local-storage"
 import { clearLocalStorage } from "@/lib/utils/local-storage"
 import type { SavedCreation } from "@/lib/types"
+import { logError } from "@/lib/utils/error-logger"
+import { ErrorDebugPanel } from "../error-debug-panel"
 import {
   type Brick,
   getShapeIdForBrickDimensions,
@@ -33,6 +35,7 @@ import { isKvConfigured } from "@/lib/utils/check-kv-integration"
 import { useMetaMaskContext } from "@/contexts/metamask-context"
 import { EthbloxLoader } from "../ethblox-loader"
 import { MintBuildModal } from "../mint/mint-build-modal"
+import * as THREE from "three" // Import THREE.js
 
 function calculateTotalBlox(bricks: Brick[]): number {
   return bricks.reduce((total, brick) => {
@@ -280,7 +283,6 @@ export default function V0Blocks() {
         position: [brick.position[0], newY, brick.position[2]] as [number, number, number],
       }
     })
-    // </CHANGE>
 
     const normalisedBricks: Brick[] = migratedBricks.map((brick) => ({
       ...brick,
@@ -326,6 +328,22 @@ export default function V0Blocks() {
     setBaseWidth,
     setBaseDepth,
   })
+
+  useEffect(() => {
+    console.log("[v0] V0Blocks component mounted")
+    logError("V0Blocks initialized", "general")
+
+    // Check if Three.js is available
+    try {
+      if (typeof THREE === "undefined") {
+        logError("THREE.js not loaded", "three")
+      } else {
+        console.log("[v0] THREE.js loaded successfully")
+      }
+    } catch (e) {
+      logError(`THREE.js check failed: ${e}`, "three")
+    }
+  }, [])
 
   return (
     <div
@@ -448,6 +466,8 @@ export default function V0Blocks() {
         gridWidth={baseWidth}
         gridDepth={baseDepth}
       />
+
+      <ErrorDebugPanel />
     </div>
   )
 }
