@@ -7,6 +7,7 @@ import { useFrame } from "@react-three/fiber"
 import { Instances, Instance, useTexture, RoundedBox } from "@react-three/drei"
 import {
   BRICK_HEIGHT,
+  LAYER_GAP,
   STUD_HEIGHT,
   STUD_RADIUS,
   STUD_SEGMENTS,
@@ -29,7 +30,7 @@ export const Block: React.FC<BlockProps> = ({
 }) => {
   const depth = height
 
-  const blockGeometry = useMemo(() => new THREE.BoxGeometry(width, BRICK_HEIGHT, depth), [width, depth])
+  const blockGeometry = useMemo(() => new THREE.BoxGeometry(width, BRICK_HEIGHT - LAYER_GAP, depth), [width, depth])
 
   const studGeometry = useMemo(
     () =>
@@ -42,8 +43,8 @@ export const Block: React.FC<BlockProps> = ({
   const studPositions = useMemo(() => {
     const positions = []
     const yOffset = USE_NEW_BRICK_STYLE
-      ? BRICK_HEIGHT / 2 // Position domes flush on the top surface without gap
-      : BRICK_HEIGHT / 2 + STUD_HEIGHT / 2
+      ? (BRICK_HEIGHT - LAYER_GAP) / 2 // Position domes flush on the top surface
+      : BRICK_HEIGHT / 2 - LAYER_GAP / 2 + STUD_HEIGHT / 2
 
     for (let x = -width / 2 + 0.5; x < width / 2; x++) {
       for (let z = -depth / 2 + 0.5; z < depth / 2; z++) {
@@ -153,7 +154,7 @@ export const Block: React.FC<BlockProps> = ({
       {USE_NEW_BRICK_STYLE ? (
         <RoundedBox
           ref={brickRef}
-          args={[width, BRICK_HEIGHT, depth]}
+          args={[width, BRICK_HEIGHT - LAYER_GAP, depth]}
           radius={BRICK_CORNER_RADIUS}
           smoothness={4}
           castShadow
