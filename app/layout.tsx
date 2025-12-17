@@ -37,12 +37,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
-      <head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"
-        />
-      </head>
       <body className={`${jetbrainsMono.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
